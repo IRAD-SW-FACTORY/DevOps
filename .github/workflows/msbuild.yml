@@ -1,0 +1,17 @@
+name: .NET Framework msbuild
+on: [push]
+jobs:
+  Check-Version:
+    runs-on: self-hosted
+    steps:
+      - name: MSBuild version
+        run: msbuild /version
+      - name: dotnet version
+        run: dotnet --version
+  Build:
+    runs-on: self-hosted
+    steps:
+      - name: Build .NET7
+        run: dotnet build src\net7_empty\NET7.csproj
+      - name: Build .NET4 app for release
+        run: msbuild src\net4_empty\NET4.csproj -t:rebuild -property:Configuration=Release
