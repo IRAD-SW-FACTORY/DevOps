@@ -4,8 +4,6 @@ jobs:
   Check-Version:
     runs-on: self-hosted
     steps:
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.1
       - name: MSBuild version
         run: msbuild /version
       - name: dotnet version
@@ -13,6 +11,7 @@ jobs:
   Build:
     runs-on: self-hosted
     steps:
+      - uses: actions/checkout@v2
       - name: Build .NET7
         run: dotnet build src\net7_empty\NET7.csproj
       - name: Build .NET4 app for release
