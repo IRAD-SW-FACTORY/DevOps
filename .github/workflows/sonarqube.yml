@@ -1,8 +1,8 @@
 name: Sonarqube
 on: [push]
 jobs:
-  build:
-    name: Build
+  Scan:
+    name: Sonarqube Scan
     runs-on: self-hosted
     steps:
       - name: Set up JDK 11
@@ -39,4 +39,5 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"DevOps" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_URL }}"
           cd src\net7_empty
           dotnet build
+          dotnet test
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
