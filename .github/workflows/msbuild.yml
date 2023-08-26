@@ -4,6 +4,8 @@ jobs:
   Check-Version:
     runs-on: self-hosted
     steps:
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
       - name: MSBuild version
         run: msbuild /version
       - name: dotnet version
