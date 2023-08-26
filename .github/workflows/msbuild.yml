@@ -1,4 +1,4 @@
-name: .NET Framework msbuild
+name: .NET Framework msbuild and dotnet
 on: [push]
 jobs:
   Check-Version:
