@@ -8,13 +8,6 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>EmptyProject</RootNamespace>
     <AssemblyName>EmptyProject</AssemblyName>
-    <TargetFrameworkVersion></TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
