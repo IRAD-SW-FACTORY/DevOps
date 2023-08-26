@@ -2,14 +2,14 @@ name: .NET Framework msbuild
 on: [push]
 jobs:
   Check-Version:
-    runs-on: self-hosted
+    runs-on: windows-latest
     steps:
       - name: MSBuild version
         run: msbuild /version
       - name: dotnet version
         run: dotnet --version
   Build:
-    runs-on: self-hosted
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build .NET7
