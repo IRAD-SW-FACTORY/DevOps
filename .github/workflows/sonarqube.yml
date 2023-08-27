@@ -14,5 +14,5 @@ jobs:
         run: |
           cd src\NET48
           SonarScanner.MSBuild.exe begin /k:"DevOps" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ vars.SONAR_URL }}" /d:sonar.verbose=true
-          msbuild /p:Configuration=Release /p:SonarQubeTargetsImported=true /t:rebuild
+          msbuild /p:Configuration=Release /t:rebuild
           SonarScanner.MSBuild.exe end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
