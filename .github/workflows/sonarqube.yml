@@ -7,14 +7,18 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis3
+      - uses: actions/checkout@master
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         shell: powershell
         run: |
           cd src\net7_empty
-          dotnet-sonarscanner begin /k:"DevOps" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ vars.SONAR_URL }}"
           dotnet build
           dotnet test
-          dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+      - name: SonarQube Scan
+        uses: kitabisa/sonarqube-action@master
+        with:
+          host: ${{ vars.SONAR_URL }}
+          login: ${{ secrets.SONAR_TOKEN }}    
