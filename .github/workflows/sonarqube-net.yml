@@ -13,6 +13,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         run: |
           cd src\net7_empty
+          dotnet tool install --global dotnet-sonarscanner
           dotnet sonarscanner begin /k:"${{ github.event.repository.name }}-NET7" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ vars.SONAR_URL }}" /d:sonar.verbose=true
           dotnet build
           dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
