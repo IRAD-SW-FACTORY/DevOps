@@ -15,7 +15,6 @@ jobs:
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-        shell: powershell
         run: |
           cd src\net7_empty
           dotnet-sonarscanner begin /k:"DevOps" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ vars.SONAR_URL }}"
