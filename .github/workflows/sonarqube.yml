@@ -13,7 +13,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         run: |
           cd src\NET48
-          msbuild NET48.csproj -t:rebuild -property:Configuration=Release
           C:\devops\sonar-scanner-msbuild\SonarScanner.MSBuild.exe begin /k:"DevOps" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ vars.SONAR_URL }}"
-          msbuild NET48.csproj -t:rebuild -property:Configuration=Release
+          msbuild NET48.csproj  /p:Configuration=Release /p:Platform=x64
           C:\devops\sonar-scanner-msbuild\SonarScanner.MSBuild.exe end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
