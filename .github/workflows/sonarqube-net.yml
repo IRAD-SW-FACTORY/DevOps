@@ -16,4 +16,5 @@ jobs:
           dotnet tool install --global dotnet-sonarscanner
           dotnet sonarscanner begin /k:"${{ github.event.repository.name }}-NET7" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ vars.SONAR_URL }}" /d:sonar.verbose=true
           dotnet build
+          dotnet test
           dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
