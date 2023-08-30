@@ -14,5 +14,5 @@ jobs:
         run: |
           cd src\NET46
           SonarScanner.MSBuild.exe begin /k:"${{ github.event.repository.name }}-NET48" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ vars.SONAR_URL }}" /d:sonar.verbose=true
-          msbuild /t:restore /p:Configuration=Release /t:rebuild
+          msbuild /t:restore /p:RestorePackagesConfig=true /p:Configuration=Release /t:rebuild
           SonarScanner.MSBuild.exe end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
