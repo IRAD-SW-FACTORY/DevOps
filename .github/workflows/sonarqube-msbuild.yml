@@ -12,7 +12,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         run: |
-          cd src\NET48
+          cd src\NET46
           SonarScanner.MSBuild.exe begin /k:"${{ github.event.repository.name }}-NET48" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ vars.SONAR_URL }}" /d:sonar.verbose=true
           msbuild /p:Configuration=Release /t:rebuild
           SonarScanner.MSBuild.exe end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
