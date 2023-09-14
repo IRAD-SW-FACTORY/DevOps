@@ -31,8 +31,8 @@ runs:
           DESTINATION_PWD: "${{ inputs.devopsPwd }}"
           VERSION_FILE: "Deploy\\version.txt"
       run: |
-        cd ${{ inputs.projectPath }} 
         mkdir -p Deploy
+        cd ${{ inputs.projectPath }} 
         msbuild /p:DeployOnBuild=true /p:PublishProfile=DeployFolder
         echo "${{ github.repository }}" > %VERSION_FILE%
         echo "${{ github.ref }}.${{ github.job }}.${{ github.run_id }}" >> %VERSION_FILE%
