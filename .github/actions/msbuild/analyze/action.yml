@@ -8,7 +8,7 @@ inputs:
   testsAssembly:
     description: ''
     required: false
-    default: ''
+    default: '-'
   sonarUrl:
     description: 'Url of sonarqube instance'
     required: true
@@ -25,6 +25,6 @@ runs:
         cd ${{ inputs.projectPath }}
         SonarScanner.MSBuild.exe begin /k:"${{ github.event.repository.name }}" /d:sonar.login="${{ inputs.sonarToken }}" /d:sonar.host.url="${{ inputs.sonarUrl }}
         msbuild /t:restore /p:RestorePackagesConfig=true /p:Configuration=Release /t:rebuild
-        @if ${{ inputs.testsAssembly }} == '' (echo "No tests") else vstest.console ${{ inputs.testsAssembly }}
+        @if "${{ inputs.testsAssembly }}" == "-" (echo "No tests") else vstest.console ${{ inputs.testsAssembly }}
         SonarScanner.MSBuild.exe end /d:sonar.login="${{ inputs.sonarToken }}"
       
