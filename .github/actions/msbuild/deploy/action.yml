@@ -1,0 +1,41 @@
+name: Backup and Publish with msbuild
+description: Backup running version and publish .NET project using msbuild
+inputs:
+  destinationPath:
+    description: 'Path of solution or project source code'
+    required: true
+    default: '.'
+  appName:
+    description: ''
+    required: true
+  devopsUser:
+    description: ''
+    required: true
+  devopsPwd:
+    description: ''
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - shell: cmd
+      env: 
+          RUN_ID: ${{ github.run_id }}
+          DESTINATION_PATH: "${{ inputs.destinationPath }}"
+          APP_NAME: "${{ inputs.appName }}"
+          DESTINATION_USER: "${{ inputs.devopsUser }}"
+          DESTINATION_PWD: "${{ inputs.devopsPwd }}"
+          VERSION_FILE: "Deploy\\version.txt"
+      run: | 
+        mkdir -p Deploy
+        msbuild /p:DeployOnBuild=true /p:PublishProfile=DeployFolder
+        echo "${{ github.repository }}" > %VERSION_FILE%
+        echo "${{ github.ref }}.${{ github.job }}.${{ github.run_id }}" >> %VERSION_FILE%
+        net use X: "%DESTINATION_PATH%" "%DESTINATION_PWD%" /User:%DESTINATION_USER%
+        xcopy Deploy\* X:\%APP_NAME%_%RUN_ID%\* /Y /E
+        X:
+        move /Y X:\%APP_NAME% X:\Backups\%APP_NAME%_%RUN_ID%
+        rename X:\%APP_NAME%_%RUN_ID% %APP_NAME%
+        net use X: /d /Y
+ 
+            
