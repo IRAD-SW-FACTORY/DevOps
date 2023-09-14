@@ -43,6 +43,7 @@ runs:
         X:
         move /Y X:\%APP_NAME% X:\Backups\%APP_NAME%_%RUN_ID%
         rename X:\%APP_NAME%_%RUN_ID% %APP_NAME%
+        c:
         net use X: /d /Y
  
             
