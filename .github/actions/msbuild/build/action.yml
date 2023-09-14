@@ -17,13 +17,13 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0 
     - name: Build and analyze
       env: 
             PROJECT_PATH: ${{ inputs.projectPath }}
             BUILD_CONFIG: ${{ inputs.buildConfiguration }}
             TESTS_PATH: ${{ inputs.testsAssembly }}
       shell: cmd
-      run: scripts\msbuild\build.bat
-        
-  
-        
+      run: scripts\msbuild\build.bat    
