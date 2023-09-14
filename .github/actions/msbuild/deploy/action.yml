@@ -24,9 +24,7 @@ runs:
   steps:
     - uses: actions/checkout@v3
       with:
-        fetch-depth: 0
-    - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
-      shell: cmd    
+        fetch-depth: 0 
     - shell: cmd
       env: 
           RUN_ID: ${{ github.run_id }}
@@ -36,7 +34,7 @@ runs:
           DESTINATION_PWD: ${{ inputs.devopsPwd }}
           VERSION_FILE: "Deploy\\version.txt"
       run: |
-        test.bat
+        .github\test.bat
         mkdir Deploy
         cd ${{ inputs.projectPath }} 
         msbuild /p:DeployOnBuild=true /p:PublishProfile=DeployFolder /p:Configuration=Release /p:Platform="Any CPU"
