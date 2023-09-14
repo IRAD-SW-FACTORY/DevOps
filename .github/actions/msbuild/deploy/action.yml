@@ -35,7 +35,6 @@ runs:
         cd ${{ inputs.projectPath }} 
         msbuild /p:DeployOnBuild=true /p:PublishProfile=DeployFolder
         cd ..
-        cd ..
         echo "${{ github.repository }}" > %VERSION_FILE%
         echo "${{ github.ref }}.${{ github.job }}.${{ github.run_id }}" >> %VERSION_FILE%
         net use X: "%DESTINATION_PATH%" "%DESTINATION_PWD%" /User:%DESTINATION_USER%
