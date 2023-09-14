@@ -25,10 +25,10 @@ runs:
     - shell: cmd
       env: 
           RUN_ID: ${{ github.run_id }}
-          DESTINATION_PATH: "${{ inputs.destinationPath }}"
-          APP_NAME: "${{ inputs.appName }}"
-          DESTINATION_USER: "${{ inputs.devopsUser }}"
-          DESTINATION_PWD: "${{ inputs.devopsPwd }}"
+          DESTINATION_PATH: ${{ inputs.destinationPath }}
+          APP_NAME: ${{ inputs.appName }}
+          DESTINATION_USER: ${{ inputs.devopsUser }}
+          DESTINATION_PWD: ${{ inputs.devopsPwd }}
           VERSION_FILE: "Deploy\\version.txt"
       run: |
         mkdir Deploy
