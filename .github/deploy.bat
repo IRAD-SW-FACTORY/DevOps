@@ -1,8 +1,8 @@
- mkdir Deploy
-cd ${{ inputs.projectPath }} 
+mkdir Deploy
+cd %PROJECT_PATH%%
 msbuild /p:DeployOnBuild=true /p:PublishProfile=DeployFolder /p:Configuration=Release /p:Platform="Any CPU"
-echo "${{ github.repository }}" > %VERSION_FILE%
-echo "${{ github.ref }}.${{ github.job }}.${{ github.run_id }}" >> %VERSION_FILE%
+echo "%APP_NAME%" > %VERSION_FILE%
+echo "%VERSION%" >> %VERSION_FILE%
 net use X: %DESTINATION_PATH% "%DESTINATION_PWD%" /User:%DESTINATION_USER%
 xcopy Deploy\* X:\%APP_NAME%_%RUN_ID%\* /Y /E
 X:
