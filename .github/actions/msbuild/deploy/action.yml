@@ -36,10 +36,6 @@ runs:
         msbuild /p:DeployOnBuild=true /p:PublishProfile=DeployFolder /p:Configuration=Release /p:Platform="Any CPU"
         cd
         dir
-        echo "Version %VERSION_FILE%"
-        echo "DESTINATION_PATH %DESTINATION_PATH%"
-        echo "USER DEVOPS %DESTINATION_USER%"
-        echo "%DESTINATION_PWD%"
         echo "${{ github.repository }}" > %VERSION_FILE%
         echo "${{ github.ref }}.${{ github.job }}.${{ github.run_id }}" >> %VERSION_FILE%
         net use X: %DESTINATION_PATH% "%DESTINATION_PWD%" /User:%DESTINATION_USER%
