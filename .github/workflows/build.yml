@@ -16,7 +16,7 @@ jobs:
       - name: Build .NET app
         uses: ./.github/actions/msbuild/build
         with:
-          projectPath: 'src\NET46'
+          projectPath: 'src\NET48'
   Sonarqube:
     name: Sonarqube Scan
     runs-on: ['self-hosted', 'Windows', 'X64']
@@ -27,6 +27,6 @@ jobs:
       - name: Build .NET app
         uses: ./.github/actions/msbuild/analyze
         with:
-          projectPath: 'src\NET46'
+          projectPath: 'src\NET48'
           sonarUrl: '${{ vars.SONAR_URL }}'
           sonarToken: '${{ secrets.SONAR_TOKEN }}'
