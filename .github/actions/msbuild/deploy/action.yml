@@ -29,13 +29,14 @@ runs:
           APP_NAME: ${{ inputs.appName }}
           DESTINATION_USER: ${{ inputs.devopsUser }}
           DESTINATION_PWD: ${{ inputs.devopsPwd }}
-          VERSION_FILE: "Deploy\\version.txt"
+          VERSION_FILE: "Deploy\version.txt"
       run: |
         mkdir Deploy
         cd ${{ inputs.projectPath }} 
         msbuild /p:DeployOnBuild=true /p:PublishProfile=DeployFolder /p:Configuration=Release /p:Platform="Any CPU"
         cd
         dir
+        echo "Version %VERSION_FILE%"
         echo "${{ github.repository }}" > %VERSION_FILE%
         echo "${{ github.ref }}.${{ github.job }}.${{ github.run_id }}" >> %VERSION_FILE%
         net use X: "%DESTINATION_PATH%" "%DESTINATION_PWD%" /User:%DESTINATION_USER%
