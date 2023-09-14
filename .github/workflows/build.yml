@@ -17,6 +17,7 @@ jobs:
         uses: ./.github/actions/msbuild/build
         with:
           projectPath: 'src\NET48'
+          testsAssembly: 'NET48.Tests\bin\Release\NET48.Tests.dll'
   Sonarqube:
     name: Sonarqube Scan
     runs-on: ['self-hosted', 'Windows', 'X64']
@@ -30,4 +31,4 @@ jobs:
           projectPath: 'src\NET48'
           sonarUrl: '${{ vars.SONAR_URL }}'
           sonarToken: '${{ secrets.SONAR_TOKEN }}'
-          #testsAssembly: 'NET48.Tests\bin\Release\NET48.Tests.dll'
+          testsAssembly: 'NET48.Tests\bin\Release\NET48.Tests.dll'
