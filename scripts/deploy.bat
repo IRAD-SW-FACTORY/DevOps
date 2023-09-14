@@ -1,3 +1,4 @@
+echo "Publishing of %APP_NAME% started"
 mkdir Deploy
 cd %PROJECT_PATH%%
 msbuild /p:DeployOnBuild=true /p:PublishProfile=DeployFolder /p:Configuration=Release /p:Platform="Any CPU"
