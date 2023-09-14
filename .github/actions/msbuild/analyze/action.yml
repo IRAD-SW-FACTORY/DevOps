@@ -15,6 +15,10 @@ inputs:
   sonarToken:
     description: 'Api key with access to analyze projects'
     required: true
+  buildConfiguration:
+    description: 'Compilation configuration to use. Debug or Release are the common options'
+    required: false
+    default: 'Release'
  
 runs:
   using: "composite"
