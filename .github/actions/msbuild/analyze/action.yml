@@ -5,6 +5,10 @@ inputs:
     description: 'Path of solution or project source code'
     required: true
     default: '.'
+  testsAssembly:
+    description: ''
+    required: false
+    default: ''
   sonarUrl:
     description: 'Url of sonarqube instance'
     required: true
