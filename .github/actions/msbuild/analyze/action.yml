@@ -32,5 +32,5 @@ runs:
           TESTS_PATH: ${{ inputs.testsAssembly }}
           SONAR_TOKEN: ${{ inputs.sonarToken }}
           SONAR_URL: ${{ inputs.sonarUrl }}
-      run: scripts\analyze.bat
+      run: scripts\msbuild\analyze.bat
       

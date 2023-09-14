@@ -23,7 +23,7 @@ runs:
             BUILD_CONFIG: ${{ inputs.buildConfiguration }}
             TESTS_PATH: ${{ inputs.testsAssembly }}
       shell: cmd
-      run: scripts\build.bat
+      run: scripts\msbuild\build.bat
         
   
         

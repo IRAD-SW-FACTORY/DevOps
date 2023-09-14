@@ -35,6 +35,6 @@ runs:
           VERSION: '${{ github.ref }}.${{ github.job }}.${{ github.run_id }}'
           VERSION_FILE: "Deploy\\version.txt"
       shell: cmd
-      run: scripts\deploy.bat
+      run: scripts\msbuild\deploy.bat
  
             
