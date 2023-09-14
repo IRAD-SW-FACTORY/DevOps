@@ -1,6 +1,10 @@
 name: Backup and Publish with msbuild
 description: Backup running version and publish .NET project using msbuild
 inputs:
+  projectPath:
+    description: 'Path of solution or project source code'
+    required: true
+    default: '.'
   destinationPath:
     description: 'Path of solution or project source code'
     required: true
@@ -26,7 +30,8 @@ runs:
           DESTINATION_USER: "${{ inputs.devopsUser }}"
           DESTINATION_PWD: "${{ inputs.devopsPwd }}"
           VERSION_FILE: "Deploy\\version.txt"
-      run: | 
+      run: |
+        cd ${{ inputs.projectPath }} 
         mkdir -p Deploy
         msbuild /p:DeployOnBuild=true /p:PublishProfile=DeployFolder
         echo "${{ github.repository }}" > %VERSION_FILE%
