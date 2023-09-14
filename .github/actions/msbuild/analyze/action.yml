@@ -15,16 +15,22 @@ inputs:
   sonarToken:
     description: 'Api key with access to analyze projects'
     required: true
+  buildConfiguration:
+    description: 'Compilation configuration to use. Debug or Release are the common options'
+    required: false
+    default: 'Release'
  
 runs:
   using: "composite"
   steps:
     - name: Build and analyze
       shell: cmd
-      run: |
-        cd ${{ inputs.projectPath }}
-        SonarScanner.MSBuild.exe begin /k:"${{ github.event.repository.name }}" /d:sonar.login="${{ inputs.sonarToken }}" /d:sonar.host.url="${{ inputs.sonarUrl }}
-        msbuild /t:restore /p:RestorePackagesConfig=true /p:Configuration=Release /t:rebuild
-        @if "${{ inputs.testsAssembly }}" == "-" (echo "No tests") else vstest.console ${{ inputs.testsAssembly }}
-        SonarScanner.MSBuild.exe end /d:sonar.login="${{ inputs.sonarToken }}"
+      env: 
+          REPO_NAME: ${{ github.event.repository.name }}
+          PROJECT_PATH: ${{ inputs.projectPath }}
+          BUILD_CONFIG: ${{ inputs.buildConfiguration }}
+          TESTS_PATH: ${{ inputs.testsAssembly }}
+          SONAR_TOKEN: ${{ inputs.sonarToken }}
+          SONAR_URL: ${{ inputs.sonarUrl }}
+      run: scripts\msbuild\analyze.bat
       

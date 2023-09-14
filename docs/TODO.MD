@@ -26,5 +26,8 @@
 3. Create Release Package
 4. Deploy to environment (tag for production)
 
+## Actions
+
+TODO move logic to bat or cmd file , this will allow local testing of the scripts!
 
 ## Git flow and protections

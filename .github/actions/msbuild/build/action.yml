@@ -18,11 +18,12 @@ runs:
   using: "composite"
   steps:
     - name: Build and analyze
+      env: 
+            PROJECT_PATH: ${{ inputs.projectPath }}
+            BUILD_CONFIG: ${{ inputs.buildConfiguration }}
+            TESTS_PATH: ${{ inputs.testsAssembly }}
       shell: cmd
-      run: |
-        cd ${{ inputs.projectPath }}
-        msbuild /t:restore /p:RestorePackagesConfig=true /p:Configuration=${{ inputs.buildConfiguration }} /t:rebuild
-        @if "${{ inputs.testsAssembly }}" == "-" (echo "No tests") else vstest.console ${{ inputs.testsAssembly }}
+      run: scripts\msbuild\build.bat
         
   
         
