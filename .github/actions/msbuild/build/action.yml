@@ -5,6 +5,10 @@ inputs:
     description: 'Path of solution or project source code'
     required: true
     default: '.'
+  testsAssembly:
+    description: ''
+    required: false
+    default: '-'
   buildConfiguration:
     description: 'Compilation configuration to use. Debug or Release are the common options'
     required: false
@@ -18,5 +22,7 @@ runs:
       run: |
         cd ${{ inputs.projectPath }}
         msbuild /t:restore /p:RestorePackagesConfig=true /p:Configuration=${{ inputs.buildConfiguration }} /t:rebuild
+        @if "${{ inputs.testsAssembly }}" == "-" (echo "No tests") else vstest.console ${{ inputs.testsAssembly }}
+        
   
         
