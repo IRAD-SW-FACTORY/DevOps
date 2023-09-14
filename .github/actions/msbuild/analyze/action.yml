@@ -37,5 +37,5 @@ runs:
           TESTS_PATH: ${{ inputs.testsAssembly }}
           SONAR_TOKEN: ${{ inputs.sonarToken }}
           SONAR_URL: ${{ inputs.sonarUrl }}
-      run: scripts\msbuild\analyze.bat
+      run: .\.github\scripts\msbuild\analyze.bat
       
