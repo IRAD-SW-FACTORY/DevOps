@@ -1,0 +1,25 @@
+name: Sonarqube with msbuild
+description: ''
+inputs:
+  projectPath:
+    description: 'Path of solution or project source code'
+    required: true
+    default: '.'
+  sonarUrl:
+    description: 'Url of sonarqube instance'
+    required: true
+  sonarToken:
+    description: 'Api key with access to analyze projects'
+    required: true
+ 
+runs:
+  using: "composite"
+  steps:
+    - name: Build and analyze
+      shell: cmd
+      run: |
+        cd ${{ inputs.projectPath }}
+        SonarScanner.MSBuild.exe begin /k:"${{ github.event.repository.name }}" /d:sonar.login="${{ inputs.sonarToken }}" /d:sonar.host.url="${{ inputs.sonarUrl }}
+        msbuild /t:restore /p:RestorePackagesConfig=true /p:Configuration=Release /t:rebuild
+        SonarScanner.MSBuild.exe end /d:sonar.login="${{ inputs.sonarToken }}"
+      

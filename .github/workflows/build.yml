@@ -1,0 +1,32 @@
+name: Build and analyze
+on: [push, workflow_dispatch,workflow_call]
+
+jobs:
+  Check-Version:
+    runs-on: ['self-hosted', 'Windows', 'X64']
+    steps:
+      - name: MSBuild version
+        run: msbuild /version
+  Build:
+    runs-on: ['self-hosted', 'Windows', 'X64']
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Build .NET app
+        uses: ./.github/actions/msbuild/build
+        with:
+          projectPath: 'src\NET48'
+  Sonarqube:
+    name: Sonarqube Scan
+    runs-on: ['self-hosted', 'Windows', 'X64']
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Build .NET app
+        uses: ./.github/actions/msbuild/analyze
+        with:
+          projectPath: 'src\NET48'
+          sonarUrl: '${{ vars.SONAR_URL }}'
+          sonarToken: '${{ secrets.SONAR_TOKEN }}'
