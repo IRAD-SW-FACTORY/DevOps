@@ -15,6 +15,7 @@ jobs:
           projectPath: 'src\NET48'
           sonarUrl: '${{ vars.SONAR_URL }}'
           sonarToken: '${{ secrets.SONAR_TOKEN }}'
+          testsAssembly: 'NET48.Tests\bin\Release\NET48.Tests.dll'
   DeployQA:
     runs-on: ['self-hosted', 'Windows', 'X64']
     #needs: ['Sonarqube']
