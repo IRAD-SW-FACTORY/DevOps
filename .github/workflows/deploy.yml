@@ -12,7 +12,7 @@ jobs:
       - name: Build .NET app
         uses: ./.github/actions/msbuild/analyze
         with:
-          projectPath: 'src\NET48'
+          projectPath: 'src\NET46'
           sonarUrl: '${{ vars.SONAR_URL }}'
           sonarToken: '${{ secrets.SONAR_TOKEN }}'
   DeployQA:
@@ -28,7 +28,7 @@ jobs:
       - name: Publish .NET app
         uses: ./.github/actions/msbuild/deploy
         with:
-          projectPath: 'src\NET48'
+          projectPath: 'src\NET46'
           destinationPath: '${{ vars.QA_DEPLOY_PATH }}'
           appName: '${{ vars.APP_NAME }}'
           devopsUser: 'devops'
@@ -45,7 +45,7 @@ jobs:
       - name: Publish .NET app
         uses: ./.github/actions/msbuild/deploy
         with:
-          projectPath: 'src\NET48'
+          projectPath: 'src\NET46'
           destinationPath: '${{ vars.PROD_DEPLOY_PATH }}'
           appName: '${{ vars.APP_NAME }}'
           devopsUser: 'devops'
