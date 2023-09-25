@@ -22,9 +22,8 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0 
+    - shell: cmd
+      run: echo "${{ github.action_path }}"
     - env: 
           RUN_ID: ${{ github.run_id }}
           DESTINATION_PATH: ${{ inputs.destinationPath }}
@@ -36,5 +35,4 @@ runs:
           VERSION_FILE: "Deploy\\version.txt"
       shell: cmd
       run: .\.github\scripts\msbuild\deploy.bat
- 
-            
+      
