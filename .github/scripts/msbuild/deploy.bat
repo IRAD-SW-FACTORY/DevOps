@@ -1,3 +1,4 @@
+echo "Running deploy.bat"
 echo "Publishing of %APP_NAME% started"
 mkdir Deploy
 cd %PROJECT_PATH%%
