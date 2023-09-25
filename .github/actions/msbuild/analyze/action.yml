@@ -25,8 +25,7 @@ runs:
   steps:
     - shell: cmd
       run: echo "${{ github.action_path }}"
-    - name: Build and analyze
-      shell: cmd
+    - shell: cmd
       env: 
           REPO_NAME: ${{ github.event.repository.name }}
           PROJECT_PATH: ${{ inputs.projectPath }}

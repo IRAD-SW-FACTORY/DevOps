@@ -1,13 +1,15 @@
 name: Build and analyze
-on: [push, workflow_dispatch,workflow_call]
+on: [push, workflow_dispatch, workflow_call]
 
 jobs:
   Check-Version:
+    name: Check msbuild version
     runs-on: ['self-hosted', 'Windows', 'X64']
     steps:
       - name: MSBuild version
         run: msbuild /version
   Build:
+    name: Build .NET App
     runs-on: ['self-hosted', 'Windows', 'X64']
     steps:
       - uses: actions/checkout@v3

@@ -1,5 +1,5 @@
 name: Analyze and Deploy
-on: [push, workflow_dispatch,workflow_call]
+on: [push, workflow_dispatch, workflow_call]
 
 jobs:
   Sonarqube:
@@ -17,6 +17,7 @@ jobs:
           sonarToken: '${{ secrets.SONAR_TOKEN }}'
           testsAssembly: 'NET48.Tests\bin\Release\NET48.Tests.dll'
   DeployQA:
+    name: QA Deployment
     runs-on: ['self-hosted', 'Windows', 'X64']
     #needs: ['Sonarqube']
     env: 
@@ -36,6 +37,7 @@ jobs:
           devopsPwd: '${{ secrets.DEVOPSUSERPWD }}'      
           
   DeployPROD:
+    name: PROD Deployment
     runs-on: ['self-hosted', 'Windows', 'X64']
     needs: ['Sonarqube']
     if: startsWith(github.ref, 'refs/tags/v')
