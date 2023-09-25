@@ -36,4 +36,14 @@ runs:
           SONAR_TOKEN: ${{ inputs.sonarToken }}
           SONAR_URL: ${{ inputs.sonarUrl }}
       run: .\.github\scripts\msbuild\analyze.bat
+    - name: SonarQube Quality Gate check
+      id: sonarqube-quality-gate-check
+      uses: sonarsource/sonarqube-quality-gate-action@master
+      env:
+       SONAR_TOKEN: ${{ inputs.sonarToken }}
+       SONAR_HOST_URL: ${{ inputs.sonarUrl }}
+    - name: SonarQube Quality Gate Status
+      shell: cmd
+      run: echo "The Quality Gate status is ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"
+    
       
