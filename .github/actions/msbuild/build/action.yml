@@ -19,6 +19,8 @@ runs:
   steps:
     - shell: cmd
       run: echo "${{ github.action_path }}"
+    - shell: cmd
+      run: .\.github\scripts\msbuild\download.bat
     - env: 
           PROJECT_PATH: ${{ inputs.projectPath }}
           BUILD_CONFIG: ${{ inputs.buildConfiguration }}

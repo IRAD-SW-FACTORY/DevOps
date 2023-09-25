@@ -26,6 +26,8 @@ runs:
     - shell: cmd
       run: echo "${{ github.action_path }}"
     - shell: cmd
+      run: .\.github\scripts\msbuild\download.bat
+    - shell: cmd
       env: 
           REPO_NAME: ${{ github.event.repository.name }}
           PROJECT_PATH: ${{ inputs.projectPath }}
