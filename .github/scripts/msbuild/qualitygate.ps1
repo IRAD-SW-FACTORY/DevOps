@@ -11,3 +11,4 @@ if ($result.projectStatus.status -eq "ERROR") {
     exit 1 
 }
 exit 0
+Write-Output "Sonarqube quality gate status check finished $result"
