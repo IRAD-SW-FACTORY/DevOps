@@ -8,7 +8,6 @@ $response = Invoke-RestMethod "${SONAR_URL}/api/qualitygates/project_status?proj
 $result = $response | ConvertTo-Json | ConvertFrom-Json
 Write-Output $result.projectStatus.status
 if ($result.projectStatus.status -eq "ERROR") { 
-    exit 1 
+    [Environment]::Exit(1)
 }
-exit 0
 Write-Output "Sonarqube quality gate status check finished $result"
