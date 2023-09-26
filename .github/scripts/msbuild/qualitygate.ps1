@@ -2,7 +2,7 @@ $SONAR_URL = if ($null -ne $env:SONAR_URL) { $env:SONAR_URL } else { "http://ec2
 $REPO_NAME = if ($null -ne $env:REPO_NAME) { $env:REPO_NAME } else { "DevOps" };
 $SONAR_TOKEN = if ($null -ne $env:SONAR_TOKEN) { $env:SONAR_TOKEN } else { "c3FhX2Y1MDVhYTA4YTRhNmJmNzI0MDI0YThmZDBkNTBhN2RiN2RkYWQyNzA6" };
 $URL = "${SONAR_URL}api/qualitygates/project_status?projectKey=${REPO_NAME}"
-Write-Output "Starting sonarqube quality gate status of ${REPO_NAME} on instance ${SONAR_URL}"
+Write-Output "Starting sonarqube quality gate status of ${REPO_NAME} on instance ${SONAR_URL}. Token: ${SONAR_TOKEN}"
 $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
 $headers.Add("Authorization", "Basic ${SONAR_TOKEN}")
 $response = Invoke-RestMethod $URL -Method "GET" -Headers $headers
