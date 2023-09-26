@@ -5,6 +5,7 @@ $URL = "${SONAR_URL}api/qualitygates/project_status?projectKey=${REPO_NAME}"
 Write-Output "Starting sonarqube quality gate status of ${REPO_NAME} on instance ${SONAR_URL}. Token: ${SONAR_TOKEN}"
 $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
 $headers.Add("Authorization", "Basic ${SONAR_TOKEN}")
+Write-Output $headers
 $response = Invoke-RestMethod $URL -Method "GET" -Headers $headers
 $result = $response | ConvertTo-Json | ConvertFrom-Json
 Write-Output $result
