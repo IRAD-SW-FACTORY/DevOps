@@ -36,11 +36,15 @@ runs:
           SONAR_TOKEN: ${{ inputs.sonarToken }}
           SONAR_URL: ${{ inputs.sonarUrl }}
       run: .\.github\scripts\msbuild\analyze.bat
-    - name: SonarQube Quality Gate Check
+    - name: SonarQube Quality Gate Status Download
       shell: pwsh
       env:
        SONAR_TOKEN: ${{ inputs.sonarToken }}
        SONAR_URL: ${{ inputs.sonarUrl }}
-      run: .\.github\scripts\msbuild\qualitygate.ps1
-    
+      id: sonarqube-check
+      run: .\.github\scripts\msbuild\qualitygate.ps1; Write-Output "exit-code=$env:EXIT_CODE" >> $GITHUB_OUTPUT
+    - name: SonarQube Quality Gate Failed
+      if: steps.sonarqube-check.outputs.exit-code != 0
+      shell: cmd
+      run: exit 1
       
