@@ -40,7 +40,7 @@ runs:
       shell: pwsh
       env:
        SONAR_TOKEN: ${{ inputs.sonarToken }}
-       SONAR_HOST_URL: ${{ inputs.sonarUrl }}
+       SONAR_URL: ${{ inputs.sonarUrl }}
       run: .\.github\scripts\msbuild\qualitygate.ps1
     
       
