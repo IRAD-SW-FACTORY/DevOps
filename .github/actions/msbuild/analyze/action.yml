@@ -40,7 +40,7 @@ runs:
       shell: cmd
       env:
        REPO_NAME: ${{ github.event.repository.name }}
-       SONAR_TOKEN_NEW: ${{ inputs.sonarToken }}
+       SONAR_KEY: ${{ inputs.sonarToken }}
        SONAR_URL: ${{ inputs.sonarUrl }}
       id: sonarqube-check
       run: .\.github\scripts\msbuild\qualitygate.bat
