@@ -28,7 +28,8 @@ runs:
   steps:
     - shell: cmd
       run: echo "${{ github.action_path }}"
-    - shell: cmd
+    - name: Download scripts from devops repository
+      shell: cmd
       run: .\.github\scripts\msbuild\download.bat
     - shell: cmd
       env: 
