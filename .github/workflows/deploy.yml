@@ -15,6 +15,7 @@ jobs:
           projectPath: 'src\NET48'
           sonarUrl: ${{ vars.SONAR_URL }}
           sonarToken: ${{ secrets.SONAR_TOKEN }}
+          sonarBasicToken: ${{ secrets.SONAR_BASIC_TOKEN }}
           testsAssembly: 'NET48.Tests\bin\Release\NET48.Tests.dll'
   DeployQA:
     name: QA Deployment
