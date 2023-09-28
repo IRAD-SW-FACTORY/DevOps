@@ -7,7 +7,7 @@ on:
         type: string
         default: '.'
       testsAssembly:
-        required: true
+        required: false
         type: string
         default: '-'
       buildConfiguration:
@@ -15,14 +15,15 @@ on:
         type: string
         default: 'Release'
   workflow_dispatch:
+  
 jobs:
   Build:
     name: Build with sonarqube Scan
-    uses: ./.github/workflows/msbuild_build.yml@feature/refactor
+    uses: ./.github/workflows/msbuild_build.yml
     secrets: inherit
     with:
-      projectPath: 'src\NET48'
-      testsAssembly: 'NET48.Tests\bin\Release\NET48.Tests.dll'
+      projectPath: ${{ inputs.projectPath }}
+      testsAssembly: ${{ inputs.testsAssembly }}
 
   DeployQA:
     name: QA Deployment

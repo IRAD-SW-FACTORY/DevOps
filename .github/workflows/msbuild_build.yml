@@ -7,7 +7,7 @@ on:
         type: string
         default: '.'
       testsAssembly:
-        required: true
+        required: false
         type: string
         default: '-'
       buildConfiguration:
@@ -15,6 +15,7 @@ on:
         type: string
         default: 'Release'
   workflow_dispatch:
+    
 jobs:
   Check-Version:
     name: Check msbuild version
