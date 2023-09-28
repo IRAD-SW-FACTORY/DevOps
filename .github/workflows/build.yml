@@ -29,6 +29,8 @@ jobs:
           fetch-depth: 0
       - name: Build .NET app
         uses: ./.github/actions/msbuild/analyze
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           projectPath: 'src\NET48'
           sonarUrl: ${{ vars.SONAR_URL }}
