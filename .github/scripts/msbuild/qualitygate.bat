@@ -5,6 +5,7 @@ rem set REPO_NAME="DevOps"
 set url="%SONAR_URL%api/qualitygates/project_status?projectKey=%REPO_NAME%"
 set header="Authorization: Basic %SONAR_TOKEN%"
 echo %url%
+echo %header%
 curl -v --header %header% --location %url% 
 curl -s --header %header% --location %url% > output.json
 type output.json | jq .projectStatus.status > status.txt
