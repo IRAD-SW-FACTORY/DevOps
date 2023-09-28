@@ -39,7 +39,7 @@ runs:
           TESTS_PATH: ${{ inputs.testsAssembly }}
           SONAR_TOKEN: ${{ inputs.sonarToken }}
           SONAR_URL: ${{ inputs.sonarUrl }}
-      run: ${GITHUB_WORKSPACE}\.github\scripts\msbuild\analyze.bat
+      run: ${{ github.workspace }}\.github\scripts\msbuild\analyze.bat
     - name: SonarQube Quality Gate Status
       shell: cmd
       env:
@@ -47,4 +47,4 @@ runs:
        SONAR_BASIC_TOKEN: ${{ inputs.sonarBasicToken }}
        SONAR_URL: ${{ inputs.sonarUrl }}
       id: sonarqube-check
-      run: ${GITHUB_WORKSPACE}\.github\scripts\msbuild\qualitygate.bat
+      run: ${{ github.workspace }}\.github\scripts\msbuild\qualitygate.bat
