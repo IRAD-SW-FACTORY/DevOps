@@ -23,7 +23,7 @@ jobs:
       - shell: cmd
         run: dir /s 
       - shell: cmd
-        run: xcopy scripts/.github/scripts ./.github/scripts  /Y /E
+        run: xcopy scripts/.github/scripts ./.github/  /Y /E
       - shell: cmd
         run: dir /s 
       - name: Build .NET app
