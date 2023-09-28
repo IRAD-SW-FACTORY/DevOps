@@ -33,14 +33,14 @@ runs:
           PROJECT_PATH: ${{ inputs.projectPath }}
           BUILD_CONFIG: ${{ inputs.buildConfiguration }}
           TESTS_PATH: ${{ inputs.testsAssembly }}
-          SONAR_TOKEN: 'xxx'
+          SONAR_TOKEN: ${{ inputs.sonarToken }}
           SONAR_URL: ${{ inputs.sonarUrl }}
       run: .\.github\scripts\msbuild\analyze.bat
     - name: SonarQube Quality Gate Status
       shell: cmd
       env:
        REPO_NAME: ${{ github.event.repository.name }}
-       SONAR_TOKEN: ${{ inputs.sonarToken }}
+       SONAR_TOKEN_NEW: ${{ inputs.sonarToken }}
        SONAR_URL: ${{ inputs.sonarUrl }}
       id: sonarqube-check
       run: .\.github\scripts\msbuild\qualitygate.bat
