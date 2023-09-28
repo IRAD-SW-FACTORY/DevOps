@@ -9,5 +9,5 @@ curl -s --header %header% --location %url% > output.json
 type output.json | jq .projectStatus.status > status.txt
 set /p Status=<status.txt
 echo Quality gate status: %Status%
-rem if %Status% == "OK" exit /b 0
-rem exit /b 1
+if %Status% == "OK" exit /b 0
+exit /b 1
