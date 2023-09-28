@@ -15,7 +15,7 @@ jobs:
           ref: refs/heads/feature/refactor
           path: 'scripts'
       - shell: cmd
-        run: xcopy .\scripts\.github\scripts .\.github\  /Y /E
+        run: xcopy .\scripts\.github\scripts ${GITHUB_WORKSPACE}\.github\  /Y /E
       - name: Build .NET app
         uses: ./.github/actions/msbuild/analyze
         with:
@@ -41,7 +41,7 @@ jobs:
           ref: refs/heads/feature/refactor
           path: 'scripts'
       - shell: cmd
-        run: xcopy .\scripts\.github\scripts .\.github\  /Y /E
+        run: xcopy .\scripts\.github\scripts ${GITHUB_WORKSPACE}\.github\  /Y /E
       - name: Publish .NET app
         uses: ./.github/actions/msbuild/deploy
         with:
@@ -66,7 +66,7 @@ jobs:
           ref: refs/heads/feature/refactor
           path: 'scripts'
       - shell: cmd
-        run: xcopy .\scripts\.github\scripts .\.github\  /Y /E
+        run: xcopy .\scripts\.github\scripts ${GITHUB_WORKSPACE}\.github\  /Y /E
       - name: Publish .NET app
         uses: ./.github/actions/msbuild/deploy
         with:
