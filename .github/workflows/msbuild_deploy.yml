@@ -28,7 +28,7 @@ jobs:
   DeployQA:
     name: QA Deployment
     runs-on: ['self-hosted', 'Windows', 'X64']
-    needs: ['Build']
+    #needs: ['Build']
     env: 
       RUN_ID: ${{ github.run_id }}
     if: github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/feature') || (startsWith(github.ref, 'refs/tags/') && !startsWith(github.ref, 'refs/tags/v'))
