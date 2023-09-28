@@ -1,33 +1,33 @@
 name: Analyze and Deploy
-on: [push, workflow_dispatch, workflow_call]
-
+on:
+  workflow_call:
+    inputs:
+      projectPath:
+        required: true
+        type: string
+        default: '.'
+      testsAssembly:
+        required: true
+        type: string
+        default: '-'
+      buildConfiguration:
+        required: false
+        type: string
+        default: 'Release'
+  workflow_dispatch:
 jobs:
-  Sonarqube:
-    name: Sonarqube Scan
-    runs-on: ['self-hosted', 'Windows', 'X64']
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: actions/checkout@v3
-        with:
-          repository: 'IRAD-SW-FACTORY/DevOps'
-          ref: refs/heads/feature/refactor
-          path: 'scripts'
-      - shell: cmd
-        run: xcopy ${{ github.workspace }}\scripts\.github\scripts ${{ github.workspace }}\.github\scripts  /Y /E
-      - name: Build .NET app
-        uses: ./.github/actions/msbuild/analyze
-        with:
-          projectPath: 'src\NET48'
-          sonarUrl: ${{ vars.SONAR_URL }}
-          sonarToken: ${{ secrets.SONAR_TOKEN }}
-          sonarBasicToken: ${{ secrets.SONAR_BASIC_TOKEN }}
-          testsAssembly: 'NET48.Tests\bin\Release\NET48.Tests.dll'
+  Build:
+    name: Build with sonarqube Scan
+    uses: ./.github/workflows/msbuild_build.yml@feature/refactor
+    secrets: inherit
+    with:
+      projectPath: 'src\NET48'
+      testsAssembly: 'NET48.Tests\bin\Release\NET48.Tests.dll'
+
   DeployQA:
     name: QA Deployment
     runs-on: ['self-hosted', 'Windows', 'X64']
-    needs: ['Sonarqube']
+    needs: ['Build']
     env: 
       RUN_ID: ${{ github.run_id }}
     if: github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/feature') || (startsWith(github.ref, 'refs/tags/') && !startsWith(github.ref, 'refs/tags/v'))
@@ -37,15 +37,19 @@ jobs:
           fetch-depth: 0
       - uses: actions/checkout@v3
         with:
+          fetch-depth: 0
           repository: 'IRAD-SW-FACTORY/DevOps'
           ref: refs/heads/feature/refactor
           path: 'scripts'
       - shell: cmd
-        run: xcopy ${{ github.workspace }}\scripts\.github\scripts ${{ github.workspace }}\.github\scripts  /Y /E
+        run: xcopy ${{ github.workspace }}\scripts\.github\scripts ${{ github.workspace }}\.github\scripts\  /Y /E
+      - shell: cmd
+        run: xcopy ${{ github.workspace }}\scripts\.github\actions ${{ github.workspace }}\.github\actions\  /Y /E
       - name: Publish .NET app
         uses: ./.github/actions/msbuild/deploy
         with:
-          projectPath: 'src\NET48'
+          projectPath: ${{ inputs.projectPath }}
+          testsAssembly: ${{ inputs.testsAssembly }}
           destinationPath: '${{ vars.QA_DEPLOY_PATH }}'
           appName: '${{ vars.APP_NAME }}'
           devopsUser: 'devops'
@@ -54,7 +58,7 @@ jobs:
   DeployPROD:
     name: PROD Deployment
     runs-on: ['self-hosted', 'Windows', 'X64']
-    needs: ['Sonarqube']
+    needs: ['Build']
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - uses: actions/checkout@v3
@@ -62,17 +66,22 @@ jobs:
           fetch-depth: 0
       - uses: actions/checkout@v3
         with:
+          fetch-depth: 0
           repository: 'IRAD-SW-FACTORY/DevOps'
           ref: refs/heads/feature/refactor
           path: 'scripts'
       - shell: cmd
-        run: xcopy ${{ github.workspace }}\scripts\.github\scripts ${{ github.workspace }}\.github\scripts  /Y /E
+        run: xcopy ${{ github.workspace }}\scripts\.github\scripts ${{ github.workspace }}\.github\scripts\  /Y /E
+      - shell: cmd
+        run: xcopy ${{ github.workspace }}\scripts\.github\actions ${{ github.workspace }}\.github\actions\  /Y /E
       - name: Publish .NET app
         uses: ./.github/actions/msbuild/deploy
         with:
-          projectPath: 'src\NET48'
+          projectPath: ${{ inputs.projectPath }}
+          testsAssembly: ${{ inputs.testsAssembly }}
           destinationPath: '${{ vars.PROD_DEPLOY_PATH }}'
           appName: '${{ vars.APP_NAME }}'
           devopsUser: 'devops'
-          devopsPwd: '${{ secrets.DEVOPSUSERPWD }}' 
+          devopsPwd: '${{ secrets.DEVOPSUSERPWD }}'     
+
   

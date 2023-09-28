@@ -14,7 +14,7 @@ on:
         required: false
         type: string
         default: 'Release'
-
+  workflow_dispatch:
 jobs:
   Check-Version:
     name: Check msbuild version
