@@ -51,6 +51,7 @@ jobs:
         with:
           projectPath: ${{ inputs.projectPath }}
           destinationPath: '${{ vars.QA_DEPLOY_PATH }}'
+          server: '${{ vars.QA_SERVER }}'
           appName: '${{ vars.APP_NAME }}'
           devopsUser: 'devops'
           devopsPwd: '${{ secrets.DEVOPSUSERPWD }}'      
@@ -79,6 +80,7 @@ jobs:
         with:
           projectPath: ${{ inputs.projectPath }}
           destinationPath: '${{ vars.PROD_DEPLOY_PATH }}'
+          server: '${{ vars.PROD_SERVER }}'
           appName: '${{ vars.APP_NAME }}'
           devopsUser: 'devops'
           devopsPwd: '${{ secrets.DEVOPSUSERPWD }}'     
