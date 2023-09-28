@@ -9,6 +9,9 @@ inputs:
     description: 'Path of solution or project source code'
     required: true
     default: '.'
+  server:
+    description: ''
+    required: true
   appName:
     description: ''
     required: true
@@ -22,12 +25,14 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0 
+    - shell: cmd
+      run: echo "${{ github.action_path }}"
+    - shell: cmd
+      run: ${{ github.workspace }}\.github\scripts\msbuild\download.bat
     - env: 
           RUN_ID: ${{ github.run_id }}
           DESTINATION_PATH: ${{ inputs.destinationPath }}
+          SERVER: ${{ inputs.server }}
           APP_NAME: ${{ inputs.appName }}
           PROJECT_PATH: ${{ inputs.projectPath }}
           DESTINATION_USER: ${{ inputs.devopsUser }}
@@ -35,6 +40,5 @@ runs:
           VERSION: '${{ github.ref }}.${{ github.job }}.${{ github.run_id }}'
           VERSION_FILE: "Deploy\\version.txt"
       shell: cmd
-      run: .\.github\scripts\msbuild\deploy.bat
- 
-            
+      run: ${{ github.workspace }}\.github\scripts\msbuild\deploy.bat
+      

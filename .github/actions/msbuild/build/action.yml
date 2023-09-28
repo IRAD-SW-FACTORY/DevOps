@@ -17,13 +17,13 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0 
-    - name: Build and analyze
-      env: 
+    - shell: cmd
+      run: echo "${{ github.action_path }}"
+    - shell: cmd
+      run: ${{ github.workspace }}\.github\scripts\msbuild\download.bat
+    - env: 
           PROJECT_PATH: ${{ inputs.projectPath }}
           BUILD_CONFIG: ${{ inputs.buildConfiguration }}
           TESTS_PATH: ${{ inputs.testsAssembly }}
       shell: cmd
-      run: .\.github\scripts\msbuild\build.bat    
+      run: ${{ github.workspace }}\.github\scripts\msbuild\build.bat    

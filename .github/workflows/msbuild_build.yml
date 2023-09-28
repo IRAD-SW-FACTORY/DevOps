@@ -1,0 +1,72 @@
+name: Build and analyze
+on:
+  workflow_call:
+    inputs:
+      projectPath:
+        required: true
+        type: string
+        default: '.'
+      testsAssembly:
+        required: false
+        type: string
+        default: '-'
+      buildConfiguration:
+        required: false
+        type: string
+        default: 'Release'
+  workflow_dispatch:
+    
+jobs:
+  Check-Version:
+    name: Check msbuild version
+    runs-on: ['self-hosted', 'Windows', 'X64']
+    steps:
+      - name: MSBuild version
+        run: msbuild /version
+  Build:
+    name: Build .NET App
+    runs-on: ['self-hosted', 'Windows', 'X64']
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          repository: 'IRAD-SW-FACTORY/DevOps'
+          ref: refs/heads/feature/refactor
+          path: 'scripts'
+      - shell: cmd
+        run: xcopy ${{ github.workspace }}\scripts\.github\scripts ${{ github.workspace }}\.github\scripts\  /Y /E
+      - shell: cmd
+        run: xcopy ${{ github.workspace }}\scripts\.github\actions ${{ github.workspace }}\.github\actions\  /Y /E
+      - name: Build .NET app
+        uses: ./.github/actions/msbuild/build
+        with:
+          projectPath: ${{ inputs.projectPath }}
+          testsAssembly: ${{ inputs.testsAssembly }}
+  Sonarqube:
+    name: Sonarqube Scan
+    runs-on: ['self-hosted', 'Windows', 'X64']
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          repository: 'IRAD-SW-FACTORY/DevOps'
+          ref: refs/heads/feature/refactor
+          path: 'scripts'
+      - shell: cmd
+        run: xcopy ${{ github.workspace }}\scripts\.github\scripts ${{ github.workspace }}\.github\scripts\  /Y /E
+      - shell: cmd
+        run: xcopy ${{ github.workspace }}\scripts\.github\actions ${{ github.workspace }}\.github\actions\  /Y /E
+      - name: Build .NET app, analyze with sonarqube and check quality gate status
+        uses: ./.github/actions/msbuild/analyze
+        with:
+          projectPath: ${{ inputs.projectPath }}
+          testsAssembly: ${{ inputs.testsAssembly }}
+          sonarUrl: ${{ vars.SONAR_URL }}
+          sonarToken: ${{ secrets.SONAR_TOKEN }}
+          sonarBasicToken: ${{ secrets.SONAR_BASIC_TOKEN }}

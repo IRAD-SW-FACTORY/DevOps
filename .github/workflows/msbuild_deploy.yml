@@ -1,0 +1,88 @@
+name: Analyze and Deploy
+on:
+  workflow_call:
+    inputs:
+      projectPath:
+        required: true
+        type: string
+        default: '.'
+      testsAssembly:
+        required: false
+        type: string
+        default: '-'
+      buildConfiguration:
+        required: false
+        type: string
+        default: 'Release'
+  workflow_dispatch:
+  
+jobs:
+  Build:
+    name: Build with sonarqube Scan
+    uses: ./.github/workflows/msbuild_build.yml
+    secrets: inherit
+    with:
+      projectPath: ${{ inputs.projectPath }}
+      testsAssembly: ${{ inputs.testsAssembly }}
+
+  DeployQA:
+    name: QA Deployment
+    runs-on: ['self-hosted', 'Windows', 'X64']
+    needs: ['Build']
+    env: 
+      RUN_ID: ${{ github.run_id }}
+    if: github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/feature') || (startsWith(github.ref, 'refs/tags/') && !startsWith(github.ref, 'refs/tags/v'))
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          repository: 'IRAD-SW-FACTORY/DevOps'
+          ref: refs/heads/feature/refactor
+          path: 'scripts'
+      - shell: cmd
+        run: xcopy ${{ github.workspace }}\scripts\.github\scripts ${{ github.workspace }}\.github\scripts\  /Y /E
+      - shell: cmd
+        run: xcopy ${{ github.workspace }}\scripts\.github\actions ${{ github.workspace }}\.github\actions\  /Y /E
+      - name: Publish .NET app
+        uses: ./.github/actions/msbuild/deploy
+        with:
+          projectPath: ${{ inputs.projectPath }}
+          destinationPath: '${{ vars.QA_DEPLOY_PATH }}'
+          server: '${{ vars.QA_SERVER }}'
+          appName: '${{ vars.APP_NAME }}'
+          devopsUser: 'devops'
+          devopsPwd: '${{ secrets.DEVOPSUSERPWD }}'      
+          
+  DeployPROD:
+    name: PROD Deployment
+    runs-on: ['self-hosted', 'Windows', 'X64']
+    needs: ['Build']
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          repository: 'IRAD-SW-FACTORY/DevOps'
+          ref: refs/heads/feature/refactor
+          path: 'scripts'
+      - shell: cmd
+        run: xcopy ${{ github.workspace }}\scripts\.github\scripts ${{ github.workspace }}\.github\scripts\  /Y /E
+      - shell: cmd
+        run: xcopy ${{ github.workspace }}\scripts\.github\actions ${{ github.workspace }}\.github\actions\  /Y /E
+      - name: Publish .NET app
+        uses: ./.github/actions/msbuild/deploy
+        with:
+          projectPath: ${{ inputs.projectPath }}
+          destinationPath: '${{ vars.PROD_DEPLOY_PATH }}'
+          server: '${{ vars.PROD_SERVER }}'
+          appName: '${{ vars.APP_NAME }}'
+          devopsUser: 'devops'
+          devopsPwd: '${{ secrets.DEVOPSUSERPWD }}'     
+
+  
