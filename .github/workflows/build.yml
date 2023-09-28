@@ -21,11 +21,9 @@ jobs:
           ref: refs/heads/feature/refactor
           path: 'scripts'
       - shell: cmd
-        run: dir /s 
+        run: xcopy .\scripts\.github\scripts .\.github\  /Y /E
       - shell: cmd
-        run: xcopy scripts/.github/scripts ./.github/  /Y /E
-      - shell: cmd
-        run: dir /s 
+        run: dir .\.github\scripts
       - name: Build .NET app
         uses: ./.github/actions/msbuild/build
         with:
