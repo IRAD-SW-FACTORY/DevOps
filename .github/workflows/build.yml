@@ -31,6 +31,6 @@ jobs:
         uses: ./.github/actions/msbuild/analyze
         with:
           projectPath: 'src\NET48'
-          sonarUrl: '${{ vars.SONAR_URL }}'
-          sonarToken: '${{ secrets.SONAR_TOKEN }}'
+          sonarUrl: ${{ vars.SONAR_URL }}
+          sonarToken: ${{ secrets.SONAR_TOKEN }}
           testsAssembly: 'NET48.Tests\bin\Release\NET48.Tests.dll'
