@@ -22,8 +22,6 @@ jobs:
           path: 'scripts'
       - shell: cmd
         run: xcopy .\scripts\.github\scripts .\.github\  /Y /E
-      - shell: cmd
-        run: dir .\.github\scripts
       - name: Build .NET app
         uses: ./.github/actions/msbuild/build
         with:
@@ -36,6 +34,13 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - uses: actions/checkout@v3
+        with:
+          repository: 'IRAD-SW-FACTORY/DevOps'
+          ref: refs/heads/feature/refactor
+          path: 'scripts'
+      - shell: cmd
+        run: xcopy .\scripts\.github\scripts .\.github\  /Y /E
       - name: Build .NET app, analyze with sonarqube and check quality gate status
         uses: ./.github/actions/msbuild/analyze
         with:

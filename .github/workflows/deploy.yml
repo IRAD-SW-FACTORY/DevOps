@@ -9,6 +9,13 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - uses: actions/checkout@v3
+        with:
+          repository: 'IRAD-SW-FACTORY/DevOps'
+          ref: refs/heads/feature/refactor
+          path: 'scripts'
+      - shell: cmd
+        run: xcopy .\scripts\.github\scripts .\.github\  /Y /E
       - name: Build .NET app
         uses: ./.github/actions/msbuild/analyze
         with:
@@ -28,6 +35,13 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - uses: actions/checkout@v3
+        with:
+          repository: 'IRAD-SW-FACTORY/DevOps'
+          ref: refs/heads/feature/refactor
+          path: 'scripts'
+      - shell: cmd
+        run: xcopy .\scripts\.github\scripts .\.github\  /Y /E
       - name: Publish .NET app
         uses: ./.github/actions/msbuild/deploy
         with:
@@ -46,6 +60,13 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - uses: actions/checkout@v3
+        with:
+          repository: 'IRAD-SW-FACTORY/DevOps'
+          ref: refs/heads/feature/refactor
+          path: 'scripts'
+      - shell: cmd
+        run: xcopy .\scripts\.github\scripts .\.github\  /Y /E
       - name: Publish .NET app
         uses: ./.github/actions/msbuild/deploy
         with:
