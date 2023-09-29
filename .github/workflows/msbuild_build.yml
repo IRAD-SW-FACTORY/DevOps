@@ -1,5 +1,6 @@
-name: Build and analyze
+name: Build and Analyze
 on:
+  push:
   workflow_call:
     inputs:
       projectPath:
@@ -15,7 +16,7 @@ on:
         type: string
         default: 'Release'
   workflow_dispatch:
-    
+
 jobs:
   Check-Version:
     name: Check msbuild version

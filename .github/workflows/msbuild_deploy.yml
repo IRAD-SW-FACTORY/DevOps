@@ -1,5 +1,11 @@
 name: Analyze and Deploy
 on:
+  push:
+    tags:
+      - '**'
+    branches:
+      - main
+      - develop
   workflow_call:
     inputs:
       projectPath:
@@ -15,7 +21,14 @@ on:
         type: string
         default: 'Release'
   workflow_dispatch:
-  
+    inputs:
+      env:
+        required: true
+        type: choice
+        default: 'qa'
+        options:
+          - qa
+          - prod
 jobs:
   Build:
     name: Build with sonarqube Scan
@@ -31,7 +44,7 @@ jobs:
     needs: ['Build']
     env: 
       RUN_ID: ${{ github.run_id }}
-    if: github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/feature') || (startsWith(github.ref, 'refs/tags/') && !startsWith(github.ref, 'refs/tags/v'))
+    if: inputs.env == 'qa' || github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/feature') || (startsWith(github.ref, 'refs/tags/') && !startsWith(github.ref, 'refs/tags/v'))
     steps:
       - uses: actions/checkout@v3
         with:
@@ -40,7 +53,7 @@ jobs:
         with:
           fetch-depth: 0
           repository: 'IRAD-SW-FACTORY/DevOps'
-          ref: refs/heads/feature/refactor
+          ref: refs/heads/develop
           path: 'scripts'
       - shell: cmd
         run: xcopy ${{ github.workspace }}\scripts\.github\scripts ${{ github.workspace }}\.github\scripts\  /Y /E
@@ -60,7 +73,7 @@ jobs:
     name: PROD Deployment
     runs-on: ['self-hosted', 'Windows', 'X64']
     needs: ['Build']
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/v') || inputs.env == 'prod'
     steps:
       - uses: actions/checkout@v3
         with:
@@ -69,7 +82,7 @@ jobs:
         with:
           fetch-depth: 0
           repository: 'IRAD-SW-FACTORY/DevOps'
-          ref: refs/heads/feature/refactor
+          ref: refs/heads/develop
           path: 'scripts'
       - shell: cmd
         run: xcopy ${{ github.workspace }}\scripts\.github\scripts ${{ github.workspace }}\.github\scripts\  /Y /E
