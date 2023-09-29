@@ -15,6 +15,10 @@ inputs:
   appName:
     description: ''
     required: true
+  appKind:
+    description: ''
+    required: true
+    default: 'AppWeb'
   devopsUser:
     description: ''
     required: true
@@ -36,7 +40,7 @@ runs:
         DESTINATION_PWD: ${{ inputs.devopsPwd }}
         VERSION: '${{ github.ref }}.${{ github.job }}.${{ github.run_id }}'
         VERSION_FILE: "Deploy\\version.txt"
-        KIND: 'AppWeb'
+        KIND: ${{ inputs.appKind }}
       shell: cmd
       run: ${{ github.workspace }}\.github\scripts\msbuild\deploy.bat
       
