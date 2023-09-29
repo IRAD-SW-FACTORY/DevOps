@@ -49,5 +49,5 @@ runs:
        REPO_NAME: ${{ github.event.repository.name }}
        SONAR_BASIC_TOKEN: ${{ inputs.sonarBasicToken }}
        SONAR_URL: ${{ inputs.sonarUrl }}
-      id: sonarqube-check
+      id: sonarqube-check-pwsh
       run: ${{ github.workspace }}\.github\scripts\msbuild\qualitygate.ps1
