@@ -36,6 +36,7 @@ runs:
         DESTINATION_PWD: ${{ inputs.devopsPwd }}
         VERSION: '${{ github.ref }}.${{ github.job }}.${{ github.run_id }}'
         VERSION_FILE: "Deploy\\version.txt"
+        KIND: 'AppWeb'
       shell: cmd
       run: ${{ github.workspace }}\.github\scripts\msbuild\deploy.bat
       
