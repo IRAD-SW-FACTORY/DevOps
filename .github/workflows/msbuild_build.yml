@@ -1,5 +1,6 @@
-name: Build and analyze
+name: Build and Analyze
 on:
+  push:
   workflow_call:
     inputs:
       projectPath:
@@ -15,7 +16,7 @@ on:
         type: string
         default: 'Release'
   workflow_dispatch:
-    
+
 jobs:
   Check-Version:
     name: Check msbuild version
@@ -34,7 +35,7 @@ jobs:
         with:
           fetch-depth: 0
           repository: 'IRAD-SW-FACTORY/DevOps'
-          ref: refs/heads/feature/refactor
+          ref: refs/heads/develop
           path: 'scripts'
       - shell: cmd
         run: xcopy ${{ github.workspace }}\scripts\.github\scripts ${{ github.workspace }}\.github\scripts\  /Y /E
@@ -56,7 +57,7 @@ jobs:
         with:
           fetch-depth: 0
           repository: 'IRAD-SW-FACTORY/DevOps'
-          ref: refs/heads/feature/refactor
+          ref: refs/heads/develop
           path: 'scripts'
       - shell: cmd
         run: xcopy ${{ github.workspace }}\scripts\.github\scripts ${{ github.workspace }}\.github\scripts\  /Y /E

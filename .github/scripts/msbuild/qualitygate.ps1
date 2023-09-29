@@ -13,6 +13,6 @@ if ($result.projectStatus.status -eq "OK") {
 } 
 else {
     $env:EXIT_CODE = 1;
-    #[Environment]::Exit(1)
+    [Environment]::Exit(1)
 }
-#[Environment]::Exit(0)
+[Environment]::Exit(0)
