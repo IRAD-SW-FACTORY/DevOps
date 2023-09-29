@@ -4,8 +4,9 @@ IF "%KIND%" == "AppWeb" GOTO :website
 goto:eof
 
 :service
-PsExec64.exe -s -nobanner -accepteula \\%SERVER% -u %DESTINATION_USER% -p "%DESTINATION_PWD%" sc stop "%APP_NAME%"
+PsExec64.exe -nobanner -accepteula \\%SERVER% -u %DESTINATION_USER% -p "%DESTINATION_PWD%" sc stop "%APP_NAME%"
 goto:eof
 
 :website
-PsExec64.exe -s -nobanner -accepteula \\%SERVER% -u %DESTINATION_USER% -p "%DESTINATION_PWD%" "C:\Windows\System32\inetsrv\appcmd.exe" "stop apppool /apppool.name:%APP_NAME%"
+echo "\\%SERVER% -u %DESTINATION_USER% -p %DESTINATION_PWD% C:\Windows\System32\inetsrv\appcmd.exe stop apppool /apppool.name:%APP_NAME%"
+PsExec64.exe -nobanner -accepteula \\%SERVER% -u %DESTINATION_USER% -p "%DESTINATION_PWD%" "C:\Windows\System32\inetsrv\appcmd.exe" "stop apppool /apppool.name:%APP_NAME%"
