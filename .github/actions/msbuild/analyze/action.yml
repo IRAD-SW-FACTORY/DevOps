@@ -43,3 +43,11 @@ runs:
        SONAR_URL: ${{ inputs.sonarUrl }}
       id: sonarqube-check
       run: ${{ github.workspace }}\.github\scripts\msbuild\qualitygate.bat
+    - name: SonarQube Quality Gate Status Powershell
+      shell: pwsh
+      env:
+       REPO_NAME: ${{ github.event.repository.name }}
+       SONAR_BASIC_TOKEN: ${{ inputs.sonarBasicToken }}
+       SONAR_URL: ${{ inputs.sonarUrl }}
+      id: sonarqube-check
+      run: ${{ github.workspace }}\.github\scripts\msbuild\qualitygate.ps1

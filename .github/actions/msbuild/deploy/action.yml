@@ -26,6 +26,7 @@ runs:
   using: "composite"
   steps:
     - env: 
+        REPO_NAME: ${{ github.event.repository.name }}
         RUN_ID: ${{ github.run_id }}
         DESTINATION_PATH: ${{ inputs.destinationPath }}
         SERVER: ${{ inputs.server }}
