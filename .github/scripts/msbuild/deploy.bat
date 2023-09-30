@@ -9,11 +9,12 @@ IF "%KIND%" == "WinService" (
 IF "%KIND%" == "AppWeb" (
   msbuild /p:DeployOnBuild=true /p:PublishProfile=DeployFolder /p:Configuration=Release /p:Platform="Any CPU"
 )
+if "%PROJECT_PATH%" NEQ "." cd ..
 
 echo "%APP_NAME%" > %VERSION_FILE%
 echo "%VERSION%" >> %VERSION_FILE%
 net use X: %DESTINATION_PATH% "%DESTINATION_PWD%" /User:%DESTINATION_USER%
-if "%PROJECT_PATH%" NEQ "." cd ..
+
 xcopy Deploy\* "X:\%APP_NAME%_%RUN_ID%\*" /Y /E
 call .github\scripts\stop.bat
 X:
