@@ -15,6 +15,9 @@ inputs:
   appName:
     description: ''
     required: true
+  serviceName:
+    description: ''
+    required: true
   appKind:
     description: ''
     required: true
@@ -35,6 +38,7 @@ runs:
         DESTINATION_PATH: ${{ inputs.destinationPath }}
         SERVER: ${{ inputs.server }}
         APP_NAME: ${{ inputs.appName }}
+        SERVICE_NAME: ${{ inputs.serviceName }}
         PROJECT_PATH: ${{ inputs.projectPath }}
         DESTINATION_USER: ${{ inputs.devopsUser }}
         DESTINATION_PWD: ${{ inputs.devopsPwd }}
