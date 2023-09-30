@@ -4,7 +4,7 @@ IF "%KIND%" == "AppWeb" GOTO :website
 goto:eof
 
 :service
-PsExec64.exe -nobanner -accepteula \\%SERVER% -s -u %DESTINATION_USER% -p "%DESTINATION_PWD%" sc stop "%APP_NAME%"
+PsExec64.exe -nobanner -accepteula \\%SERVER% -s -u %DESTINATION_USER% -p "%DESTINATION_PWD%" "sc stop" "%SERVICE_NAME%"
 goto:eof
 
 :website

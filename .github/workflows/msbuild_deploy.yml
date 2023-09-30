@@ -70,6 +70,7 @@ jobs:
           destinationPath: '${{ vars.QA_DEPLOY_PATH }}'
           server: '${{ vars.QA_SERVER }}'
           appName: '${{ vars.APP_NAME }}'
+          serviceName: '${{ vars.SERVICE_NAME }}'
           appKind: ${{ inputs.appKind }}
           devopsUser: 'devops'
           devopsPwd: '${{ secrets.DEVOPSUSERPWD }}'      
@@ -100,6 +101,7 @@ jobs:
           destinationPath: '${{ vars.PROD_DEPLOY_PATH }}'
           server: '${{ vars.PROD_SERVER }}'
           appName: '${{ vars.APP_NAME }}'
+          serviceName: '${{ vars.SERVICE_NAME }}'
           appKind: ${{ inputs.appKind }}
           devopsUser: 'devops'
           devopsPwd: '${{ secrets.DEVOPSUSERPWD }}'     
