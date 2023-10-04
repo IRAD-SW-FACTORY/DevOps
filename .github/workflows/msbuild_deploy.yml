@@ -1,11 +1,5 @@
 name: Analyze and Deploy
 on:
-  push:
-    tags:
-      - '**'
-    branches:
-      - main
-      - develop
   workflow_call:
     inputs:
       projectPath:
