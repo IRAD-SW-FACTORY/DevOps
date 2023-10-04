@@ -6,6 +6,6 @@ jobs:
     uses: ./.github/workflows/msbuild_build.yml
     secrets: inherit
     with:
-      projectPath: 'src\WebDeployApi'
+      projectPath: 'src'
       testsAssembly: 'WebDeployApi.Tests\bin\Release\WebDeployApi.Tests.dll'
   
