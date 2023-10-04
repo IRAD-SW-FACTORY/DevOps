@@ -21,5 +21,5 @@ jobs:
     uses: ./.github/workflows/msbuild_deploy.yml
     secrets: inherit
     with:
-      projectPath: 'src\WebDeployApi'
+      projectPath: 'src'
       appKind: 'AppWeb'

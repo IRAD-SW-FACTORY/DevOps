@@ -107,12 +107,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WebDeployApi\WebDeployApi.csproj">
-      <Project>{18253CEC-93F6-4995-AF6A-C705700F1835}</Project>
-      <Name>WebDeployApi</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
