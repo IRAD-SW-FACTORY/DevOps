@@ -1,0 +1,25 @@
+name: Analyze and Deploy
+on:
+  push:
+    tags:
+      - '**'
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+    inputs:
+      env:
+        required: true
+        type: choice
+        default: 'qa'
+        options:
+          - qa
+          - prod
+
+jobs:
+  Deploy:
+    uses: ./.github/workflows/msbuild_deploy.yml
+    secrets: inherit
+    with:
+      projectPath: 'src\WebDeployApi'
+      appKind: 'AppWeb'
