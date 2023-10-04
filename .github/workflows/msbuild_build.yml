@@ -1,6 +1,5 @@
 name: Build and Analyze
 on:
-  push:
   workflow_call:
     inputs:
       projectPath:
