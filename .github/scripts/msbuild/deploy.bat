@@ -7,7 +7,7 @@ IF "%KIND%" == "WinService" (
     xcopy bin\Release\* ..\Deploy\* /Y /E
 )
 IF "%KIND%" == "AppWeb" (
-  msbuild /t:restore /p:RestorePackagesConfig=true /p:DeployOnBuild=true /p:PublishProfile=DeployFolder /p:Configuration=Release /p:Platform="Any CPU"
+  msbuild /t:restore /t:rebuild /p:RestorePackagesConfig=true /p:Configuration=%BUILD_CONFIG% /p:DeployOnBuild=true /p:PublishProfile=DeployFolder /p:Platform="Any CPU"
 )
 if "%PROJECT_PATH%" NEQ "." cd ..
 
