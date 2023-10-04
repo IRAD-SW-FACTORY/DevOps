@@ -7,5 +7,5 @@ jobs:
     secrets: inherit
     with:
       projectPath: 'src\WebDeployApi'
-      testsAssembly: 'src\WebDeployApi\WebDeployApi.Tests\bin\Release\WebDeployApi.Tests.dll'
+      testsAssembly: 'WebDeployApi.Tests\bin\Release\WebDeployApi.Tests.dll'
   
