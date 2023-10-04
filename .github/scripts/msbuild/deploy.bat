@@ -3,11 +3,11 @@ echo "Publishing of %APP_NAME% started"
 mkdir Deploy
 cd %PROJECT_PATH%%
 IF "%KIND%" == "WinService" (
-    msbuild  /t:restore /p:RestorePackagesConfig=true /p:Configuration=Release /p:Platform="Any CPU"
+    msbuild  /t:restore /p:RestorePackagesConfig=true /p:Configuration=%BUILD_CONFIG%
     xcopy bin\Release\* ..\Deploy\* /Y /E
 )
 IF "%KIND%" == "AppWeb" (
-  msbuild /t:restore /t:rebuild /p:RestorePackagesConfig=true /p:Configuration=%BUILD_CONFIG% /p:DeployOnBuild=true /p:PublishProfile=DeployFolder /p:Platform="Any CPU"
+  msbuild /t:restore /t:rebuild /p:RestorePackagesConfig=true /p:Configuration=%BUILD_CONFIG% /p:DeployOnBuild=true /p:PublishProfile=DeployFolder
 )
 if "%PROJECT_PATH%" NEQ "." cd ..
 
