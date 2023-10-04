@@ -1,0 +1,11 @@
+name: Build and analyze
+on: [push, workflow_dispatch]
+
+jobs:
+  Build:
+    uses: ./.github/workflows/msbuild_build.yml
+    secrets: inherit
+    with:
+      projectPath: 'src\WebDeployApi'
+      testsAssembly: 'src\WebDeployApi\WebDeployApi.Tests\bin\Release\WebDeployApi.Tests.dll'
+  
