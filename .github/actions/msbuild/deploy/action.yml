@@ -28,6 +28,10 @@ inputs:
   devopsPwd:
     description: ''
     required: true
+  buildConfiguration:
+    description: 'Compilation configuration to use. Debug or Release are the common options'
+    required: false
+    default: 'Release'
 
 runs:
   using: "composite"
@@ -40,6 +44,7 @@ runs:
         APP_NAME: ${{ inputs.appName }}
         SERVICE_NAME: ${{ inputs.serviceName }}
         PROJECT_PATH: ${{ inputs.projectPath }}
+        BUILD_CONFIG: ${{ inputs.buildConfiguration }}
         DESTINATION_USER: ${{ inputs.devopsUser }}
         DESTINATION_PWD: ${{ inputs.devopsPwd }}
         VERSION: '${{ github.ref }}.${{ github.job }}.${{ github.run_id }}'
