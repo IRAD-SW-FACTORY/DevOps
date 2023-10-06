@@ -1,5 +1,5 @@
 echo "Running deploy.bat for repo %REPO_NAME%"
-call .github\scripts\release.bat
+call .github\scripts\msbuild\release.bat
 net use X: %DESTINATION_PATH% "%DESTINATION_PWD%" /User:%DESTINATION_USER%
 xcopy Deploy\* "X:\%APP_NAME%_%RUN_ID%\*" /Y /E
 call .github\scripts\stop.bat
