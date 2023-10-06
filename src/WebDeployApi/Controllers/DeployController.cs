@@ -1,35 +1,44 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
+using System.Linq;
+using System.Web.Hosting;
 using System.Web.Http;
 
 namespace WebDeployApi.Controllers
 {
     public class DeployController : ApiController
     {
-        // GET api/values
-        public IEnumerable<string> Get()
+        [HttpGet]
+        public string[] Get()
         {
-            return new string[] { "value1", "value2" };
+            var deploymentPath = HostingEnvironment.MapPath($"~/App_Data/");
+            return System.IO.Directory.GetFiles(deploymentPath, "*.json").Select(path => System.IO.Path.GetFileNameWithoutExtension(path)).ToArray();
         }
 
-        // GET api/values/5
-        public string Get(int id)
+        [HttpGet]
+        public IHttpActionResult Get(string id)
         {
-            return "value";
+            var deploymentPath = HostingEnvironment.MapPath($"~/App_Data/{id}.json");
+            if(System.IO.File.Exists(deploymentPath))
+            {
+                var deployment = JsonConvert.DeserializeObject<Models.Deployment>(System.IO.File.ReadAllText(deploymentPath));
+                return Ok(deployment);
+            }
+            return NotFound();
         }
 
-        // POST api/values
-        public void Post([FromBody] string value)
-        {
-        }
 
-        // PUT api/values/5
-        public void Put(int id, [FromBody] string value)
+        [HttpPost]
+        public IHttpActionResult Post([FromBody] Models.Deployment deployment)
         {
-        }
+            if(Get(deployment.id) != null)
+            {
+                return Conflict();
+            }
 
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
+            var deploymentPath = HostingEnvironment.MapPath($"~/App_Data/{deployment.id}.json");
+            System.IO.File.WriteAllText(deploymentPath, JsonConvert.SerializeObject(deployment));
+            return Ok(deployment);
         }
     }
 }
