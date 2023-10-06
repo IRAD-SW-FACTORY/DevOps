@@ -45,18 +45,26 @@ namespace WebDeployApi.Controllers
                 // In progress
                 try
                 {
-                    // TODO add deploy logic
+                    // TODO Stop service
+                    deployment.log.Add(new Models.DeploymentLog($"Stopping {deployment.name}"));
+                    // TODO Copy files
+                    deployment.log.Add(new Models.DeploymentLog($"Copying files from  {deployment.deploymentUrl}"));
+                    // TODO Backup files
+                    deployment.log.Add(new Models.DeploymentLog($"Creating backup of path {deployment.deploymentPath}"));
+                    // TODO Start service
+                    deployment.log.Add(new Models.DeploymentLog($"Starting {deployment.name}"));
                     deployment.deploymentStatus = Models.DeploymentStatus.Success;
                 }
                 catch (Exception ex)
                 {
-                    deployment.log.Add(ex.ToString());
+                    deployment.log.Add(new Models.DeploymentLog(ex));
                     deployment.deploymentStatus = Models.DeploymentStatus.Error;
                 }
                 finally
                 {
                     // End
                     deployment.updated = DateTime.UtcNow;
+                    deployment.log.Add(new Models.DeploymentLog($"Deployment {deployment.name} finished"));
                     System.IO.File.WriteAllText(deploymentPath, JsonConvert.SerializeObject(deployment));
                 }
             });
