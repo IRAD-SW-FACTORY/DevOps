@@ -1,23 +1,18 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Web.Http;
-using WebDeployApi;
 using WebDeployApi.Controllers;
 
 namespace WebDeployApi.Tests.Controllers
 {
     [TestClass]
-    public class ValuesControllerTest
+    public class DeployControllerTest
     {
         [TestMethod]
         public void Get()
         {
             // Disponer
-            ValuesController controller = new ValuesController();
+            DeployController controller = new DeployController();
 
             // Actuar
             IEnumerable<string> result = controller.Get();
@@ -33,7 +28,7 @@ namespace WebDeployApi.Tests.Controllers
         public void GetById()
         {
             // Disponer
-            ValuesController controller = new ValuesController();
+            DeployController controller = new DeployController();
 
             // Actuar
             string result = controller.Get(5);
@@ -46,7 +41,7 @@ namespace WebDeployApi.Tests.Controllers
         public void Post()
         {
             // Disponer
-            ValuesController controller = new ValuesController();
+            DeployController controller = new DeployController();
 
             // Actuar
             controller.Post("value");
@@ -58,7 +53,7 @@ namespace WebDeployApi.Tests.Controllers
         public void Put()
         {
             // Disponer
-            ValuesController controller = new ValuesController();
+            DeployController controller = new DeployController();
 
             // Actuar
             controller.Put(5, "value");
@@ -70,7 +65,7 @@ namespace WebDeployApi.Tests.Controllers
         public void Delete()
         {
             // Disponer
-            ValuesController controller = new ValuesController();
+            DeployController controller = new DeployController();
 
             // Actuar
             controller.Delete(5);
