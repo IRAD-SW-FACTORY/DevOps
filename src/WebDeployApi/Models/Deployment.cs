@@ -32,6 +32,9 @@ namespace WebDeployApi.Models
 
     public class DeploymentLog
     {
+        public DeploymentLog()
+        {
+        }
         public DeploymentLog(Exception ex)
         {
             this.ex = ex;

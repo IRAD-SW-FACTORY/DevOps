@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Http;
@@ -33,6 +34,8 @@ namespace WebDeployApi.Controllers
         [HttpPost]
         public IHttpActionResult Post([FromBody] Models.Deployment deployment)
         {
+            if (deployment == null)
+                return BadRequest();
             if (Get(deployment.id) as NotFoundResult == null)
                 return Conflict();
 
@@ -45,9 +48,12 @@ namespace WebDeployApi.Controllers
                 // In progress
                 try
                 {
+                    deployment.deploymentStatus = Models.DeploymentStatus.Inprogress;
                     // TODO Stop service
                     deployment.log.Add(new Models.DeploymentLog($"Stopping {deployment.name}"));
                     // TODO Copy files
+                    System.IO.File.WriteAllText(deploymentPath, JsonConvert.SerializeObject(deployment));
+                    Thread.Sleep(30000);
                     deployment.log.Add(new Models.DeploymentLog($"Copying files from  {deployment.deploymentUrl}"));
                     // TODO Backup files
                     deployment.log.Add(new Models.DeploymentLog($"Creating backup of path {deployment.deploymentPath}"));
