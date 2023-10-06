@@ -52,4 +52,8 @@ runs:
         KIND: ${{ inputs.appKind }}
       shell: cmd
       run: ${{ github.workspace }}\.github\scripts\msbuild\deploy.bat
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Release.zip
+        path:  ./Release.zip
       
