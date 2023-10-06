@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WebDeployApi.Models
 {
@@ -8,10 +9,11 @@ namespace WebDeployApi.Models
         public DeploymentKind kind { get; set; }
         public string name { get; set; }
         public string deploymentUrl { get; set; }
+        public bool asyncDeploy { get; set; } = true;
         public DeploymentStatus deploymentStatus { get; set; } = DeploymentStatus.Pending;
         public DateTime created { get; set; } = DateTime.UtcNow;
         public DateTime? updated { get; set; }
-
+        public List<string> log { get; set; } = new List<string>();
     }
     public enum DeploymentKind
     {

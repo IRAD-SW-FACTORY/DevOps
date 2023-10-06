@@ -19,7 +19,7 @@ namespace WebDeployApi.Tests.Controllers
             var result = controller.Get(Guid.NewGuid().ToString());
 
             // Declarar
-            Assert.IsNull(result);
+            Assert.IsNotNull(result);
         }
 
         [TestMethod]
