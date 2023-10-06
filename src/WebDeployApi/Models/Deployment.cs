@@ -9,7 +9,7 @@ namespace WebDeployApi.Models
         public DeploymentKind kind { get; set; }
         public string name { get; set; }
         public string deploymentUrl { get; set; }
-        public string deploymentPath { get; set; }
+        public string deploymentLocalPath { get; set; }
         public bool asyncDeploy { get; set; } = true;
         public DeploymentStatus deploymentStatus { get; set; } = DeploymentStatus.Pending;
         public DateTime created { get; set; } = DateTime.UtcNow;
