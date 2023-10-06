@@ -36,7 +36,8 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - env: 
+    - name: Build .NET Release
+      env: 
         REPO_NAME: ${{ github.event.repository.name }}
         RUN_ID: ${{ github.run_id }}
         DESTINATION_PATH: ${{ inputs.destinationPath }}
@@ -52,11 +53,13 @@ runs:
         KIND: ${{ inputs.appKind }}
       shell: cmd
       run: ${{ github.workspace }}\.github\scripts\msbuild\release.bat
-    - uses: actions/upload-artifact@v3
+    - name: Publish .NET Release
+      uses: actions/upload-artifact@v3
       with:
-        name: ${{ github.ref }}
+        name: ${{ inputs.appName }}
         path:  ./Deploy/   
-    - env: 
+    - name: Deploy .NET Release
+      env: 
         REPO_NAME: ${{ github.event.repository.name }}
         RUN_ID: ${{ github.run_id }}
         DESTINATION_PATH: ${{ inputs.destinationPath }}
