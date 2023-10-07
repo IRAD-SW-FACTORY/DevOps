@@ -135,4 +135,3 @@ jobs:
           appKind: ${{ inputs.appKind }}
           devopsUser: 'devops'
           devopsPwd: '${{ secrets.DEVOPSUSERPWD }}'
-
