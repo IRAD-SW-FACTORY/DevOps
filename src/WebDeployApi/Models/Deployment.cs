@@ -8,6 +8,8 @@ namespace WebDeployApi.Models
         public string id { get; set; } = Guid.NewGuid().ToString();
         public DeploymentKind kind { get; set; }
         public string name { get; set; }
+        public string serviceName { get; set; }
+
         public string deploymentUrl { get; set; }
         public string deploymentLocalPath { get; set; }
         public string backupLocalPath { get; set; }

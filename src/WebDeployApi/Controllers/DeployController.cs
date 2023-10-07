@@ -15,16 +15,16 @@ namespace WebDeployApi.Controllers
         public string[] Get()
         {
             var deploymentPath = HostingEnvironment.MapPath($"~/App_Data/");
-            return System.IO.Directory.GetFiles(deploymentPath, "*.json").Select(path => System.IO.Path.GetFileNameWithoutExtension(path)).ToArray();
+            return Directory.GetFiles(deploymentPath, "*.json").Select(path => Path.GetFileNameWithoutExtension(path)).ToArray();
         }
 
         [HttpGet]
         public IHttpActionResult Get(string id)
         {
             var deploymentPath = HostingEnvironment.MapPath($"~/App_Data/{id}.json");
-            if (System.IO.File.Exists(deploymentPath))
+            if (File.Exists(deploymentPath))
             {
-                var deployment = JsonConvert.DeserializeObject<Models.Deployment>(System.IO.File.ReadAllText(deploymentPath));
+                var deployment = JsonConvert.DeserializeObject<Models.Deployment>(File.ReadAllText(deploymentPath));
                 return Ok(deployment);
             }
             return NotFound();
@@ -52,16 +52,16 @@ namespace WebDeployApi.Controllers
                 {
                     deployment.deploymentStatus = Models.DeploymentStatus.Inprogress;
                     // Create temp directory, will be removed on success
-                    if (!System.IO.Directory.Exists(tempDir))
-                        System.IO.Directory.CreateDirectory(tempDir);
+                    if (!Directory.Exists(tempDir))
+                        Directory.CreateDirectory(tempDir);
 
                     // Download and unzip release
                     var tempZip = HostingEnvironment.MapPath($"~/App_Data/Temp/{deployment.id}/{deployment.id}.zip");
-                    if (System.IO.File.Exists(tempZip))
-                        System.IO.File.Delete(tempZip);
+                    if (File.Exists(tempZip))
+                        File.Delete(tempZip);
                     new System.Net.WebClient().DownloadFile(deployment.deploymentUrl, tempZip);
                     Logic.Zip.Unzip(tempZip);
-                    System.IO.File.Delete(tempZip);
+                    File.Delete(tempZip);
                     deployment.log.Add(new Models.DeploymentLog($"Release downloaded and unzipped to {tempDir}"));
 
                     // TODO Stop service
@@ -72,7 +72,7 @@ namespace WebDeployApi.Controllers
                             Logic.WebService.Stop(deployment.name);
                             break; ;
                         case Models.DeploymentKind.WinService:
-                            Logic.WinService.Stop(deployment.name);
+                            Logic.WinService.Stop(deployment.serviceName);
                             break;
                     }
                     deployment.log.Add(new Models.DeploymentLog($"{deployment.name} Stopped"));
@@ -80,8 +80,10 @@ namespace WebDeployApi.Controllers
                     var localPath = Path.Combine(deployment.deploymentLocalPath, deployment.name);
                     var backupPath = Path.Combine(deployment.backupLocalPath, $"{deployment.name}_{deployment.id}" );
 
-                    
+
                     // Backup files
+                    if (!Directory.Exists(backupPath))
+                        Directory.CreateDirectory(backupPath);
                     deployment.log.Add(new Models.DeploymentLog($"Creating backup of path {deployment.deploymentLocalPath}"));
                     var localDir = new DirectoryInfo(localPath);
                     Logic.IO.DeepCopy(localDir, backupPath);
@@ -99,14 +101,14 @@ namespace WebDeployApi.Controllers
                             Logic.WebService.Start(deployment.name);
                             break;
                         case Models.DeploymentKind.WinService:
-                            Logic.WinService.Start(deployment.name);
+                            Logic.WinService.Start(deployment.serviceName);
                             break;
                     }
                     deployment.log.Add(new Models.DeploymentLog($"{deployment.name} Started"));
                     deployment.deploymentStatus = Models.DeploymentStatus.Success;
 
                     //Clean all
-                    System.IO.Directory.Delete(tempDir, true);
+                    Directory.Delete(tempDir, true);
                 }
                 catch (Exception ex)
                 {
@@ -118,7 +120,7 @@ namespace WebDeployApi.Controllers
                     // End
                     deployment.updated = DateTime.UtcNow;
                     deployment.log.Add(new Models.DeploymentLog($"Deployment {deployment.name} finished"));
-                    System.IO.File.WriteAllText(deploymentPath, JsonConvert.SerializeObject(deployment));
+                    File.WriteAllText(deploymentPath, JsonConvert.SerializeObject(deployment));
                 }
             });
 
