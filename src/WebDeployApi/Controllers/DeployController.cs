@@ -78,7 +78,7 @@ namespace WebDeployApi.Controllers
                     deployment.log.Add(new Models.DeploymentLog($"{deployment.name} Stopped"));
 
                     var localPath = Path.Combine(deployment.deploymentLocalPath, deployment.name);
-                    var backupPath = Path.Combine(deployment.deploymentLocalPath, $"{deployment.name}_{deployment.id}" );
+                    var backupPath = Path.Combine(deployment.backupLocalPath, $"{deployment.name}_{deployment.id}" );
 
                     
                     // Backup files
