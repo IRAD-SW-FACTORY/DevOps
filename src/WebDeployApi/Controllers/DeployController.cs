@@ -44,16 +44,22 @@ namespace WebDeployApi.Controllers
             {
                 // Init status
                 var deploymentPath = HostingEnvironment.MapPath($"~/App_Data/{deployment.id}.json");
+                var tempZip = HostingEnvironment.MapPath($"~/App_Data/Temp/{deployment.id}.zip");
 
                 // In progress
                 try
                 {
                     deployment.deploymentStatus = Models.DeploymentStatus.Inprogress;
+                    // Download release
+                    if (System.IO.File.Exists(tempZip))
+                        System.IO.File.Delete(tempZip);
+                    new System.Net.WebClient().DownloadFile(deployment.deploymentUrl, tempZip);
+                    // TODO unzip
                     // TODO Stop service
                     deployment.log.Add(new Models.DeploymentLog($"Stopping {deployment.name}"));
                     // TODO Copy files
                     System.IO.File.WriteAllText(deploymentPath, JsonConvert.SerializeObject(deployment));
-                    Thread.Sleep(30000);
+                    Thread.Sleep(10000);
                     deployment.log.Add(new Models.DeploymentLog($"Copying files from  {deployment.deploymentUrl}"));
                     // TODO Backup files
                     deployment.log.Add(new Models.DeploymentLog($"Creating backup of path {deployment.deploymentLocalPath}"));

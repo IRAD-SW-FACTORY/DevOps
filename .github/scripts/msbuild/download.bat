@@ -1,1 +1,0 @@
-echo "TODO Download scripts from devops repo"
