@@ -56,7 +56,7 @@ namespace WebDeployApi.Controllers
                     Thread.Sleep(30000);
                     deployment.log.Add(new Models.DeploymentLog($"Copying files from  {deployment.deploymentUrl}"));
                     // TODO Backup files
-                    deployment.log.Add(new Models.DeploymentLog($"Creating backup of path {deployment.deploymentPath}"));
+                    deployment.log.Add(new Models.DeploymentLog($"Creating backup of path {deployment.deploymentLocalPath}"));
                     // TODO Start service
                     deployment.log.Add(new Models.DeploymentLog($"Starting {deployment.name}"));
                     deployment.deploymentStatus = Models.DeploymentStatus.Success;
