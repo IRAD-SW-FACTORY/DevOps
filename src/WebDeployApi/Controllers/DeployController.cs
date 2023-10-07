@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Http;
@@ -44,28 +43,59 @@ namespace WebDeployApi.Controllers
             {
                 // Init status
                 var deploymentPath = HostingEnvironment.MapPath($"~/App_Data/{deployment.id}.json");
-                var tempZip = HostingEnvironment.MapPath($"~/App_Data/Temp/{deployment.id}.zip");
+                var tempDir = HostingEnvironment.MapPath($"~/App_Data/Temp/{deployment.id}");
+                
 
                 // In progress
                 try
                 {
                     deployment.deploymentStatus = Models.DeploymentStatus.Inprogress;
-                    // Download release
+                    // Create temp directory, will be removed on success
+                    if (!System.IO.Directory.Exists(tempDir))
+                        System.IO.Directory.CreateDirectory(tempDir);
+
+                    // Download and unzip release
+                    var tempZip = HostingEnvironment.MapPath($"~/App_Data/Temp/{deployment.id}/{deployment.id}.zip");
                     if (System.IO.File.Exists(tempZip))
                         System.IO.File.Delete(tempZip);
                     new System.Net.WebClient().DownloadFile(deployment.deploymentUrl, tempZip);
-                    // TODO unzip
+                    Logic.Zip.Unzip(tempZip);
+                    System.IO.File.Delete(tempZip);
+                    deployment.log.Add(new Models.DeploymentLog($"Release downloaded and unzipped to {tempDir}"));
+
                     // TODO Stop service
                     deployment.log.Add(new Models.DeploymentLog($"Stopping {deployment.name}"));
-                    // TODO Copy files
-                    System.IO.File.WriteAllText(deploymentPath, JsonConvert.SerializeObject(deployment));
-                    Thread.Sleep(10000);
-                    deployment.log.Add(new Models.DeploymentLog($"Copying files from  {deployment.deploymentUrl}"));
+                    switch (deployment.kind)
+                    {
+                        case Models.DeploymentKind.Web:
+                            Logic.WebService.Stop(deployment.name);
+                            break; ;
+                        case Models.DeploymentKind.WinService:
+                            Logic.WinService.Stop(deployment.name);
+                            break;
+                    }
+                    deployment.log.Add(new Models.DeploymentLog($"{deployment.name} Stopped"));
+
                     // TODO Backup files
                     deployment.log.Add(new Models.DeploymentLog($"Creating backup of path {deployment.deploymentLocalPath}"));
+                    // TODO Copy files
+                    deployment.log.Add(new Models.DeploymentLog($"Copying files from  {deployment.deploymentUrl}"));
                     // TODO Start service
                     deployment.log.Add(new Models.DeploymentLog($"Starting {deployment.name}"));
+                    switch (deployment.kind)
+                    {
+                        case Models.DeploymentKind.Web:
+                            Logic.WebService.Start(deployment.name);
+                            break;
+                        case Models.DeploymentKind.WinService:
+                            Logic.WinService.Start(deployment.name);
+                            break;
+                    }
+                    deployment.log.Add(new Models.DeploymentLog($"{deployment.name} Started"));
                     deployment.deploymentStatus = Models.DeploymentStatus.Success;
+
+                    //Clean all
+                    System.IO.Directory.Delete(tempDir, true);
                 }
                 catch (Exception ex)
                 {
