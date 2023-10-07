@@ -12,6 +12,13 @@ on:
         options:
           - qa
           - prod
+      deployOptionScript:
+        required: true
+        type: choice
+        default: 'Folder'
+        options:
+          - Folder
+          - Api
 
 jobs:
   Deploy:
@@ -20,3 +27,4 @@ jobs:
     with:
       projectPath: 'src'
       appKind: 'AppWeb'
+      deployOptionScript: ${{ inputs.deployOptionScript }}

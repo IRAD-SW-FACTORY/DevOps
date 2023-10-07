@@ -1,5 +1,5 @@
-name: Deploy Release
-description: Publish Release
+name: Backup and Publish with msbuild
+description: Backup running version and publish .NET project using msbuild
 inputs:
   projectPath:
     description: 'Path of solution or project source code'
@@ -22,10 +22,6 @@ inputs:
     description: ''
     required: true
     default: 'AppWeb'
-  deployOptionScript:
-    description: 'Use shared folder or deployment api. Folder or Api'
-    required: true
-    default: 'Api'
   devopsUser:
     description: ''
     required: true
@@ -40,26 +36,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Deploy .NET Release using API
-      env: 
-        REPO_NAME: ${{ github.event.repository.name }}
-        RUN_ID: ${{ github.run_id }}
-        DESTINATION_PATH: ${{ inputs.destinationPath }}
-        SERVER: ${{ inputs.server }}
-        APP_NAME: ${{ inputs.appName }}
-        SERVICE_NAME: ${{ inputs.serviceName }}
-        PROJECT_PATH: ${{ inputs.projectPath }}
-        BUILD_CONFIG: ${{ inputs.buildConfiguration }}
-        DESTINATION_USER: ${{ inputs.devopsUser }}
-        DESTINATION_PWD: ${{ inputs.devopsPwd }}
-        VERSION: '${{ github.ref }}.${{ github.job }}.${{ github.run_id }}'
-        VERSION_FILE: "Deploy\\version.txt"
-        KIND: ${{ inputs.appKind }}
-      shell: pwsh
-      if: inputs.deployOptionScript == "Api"
-      run: ${{ github.workspace }}\.github\scripts\msbuild\apiDeploy.ps1"
-
-    - name: Deploy .NET Release using Shared Folder
+    - name: Build .NET Release
       env: 
         REPO_NAME: ${{ github.event.repository.name }}
         RUN_ID: ${{ github.run_id }}
@@ -75,7 +52,10 @@ runs:
         VERSION_FILE: "Deploy\\version.txt"
         KIND: ${{ inputs.appKind }}
       shell: cmd
-      if: inputs.deployOptionScript == "Folder"
-      run: ${{ github.workspace }}\.github\scripts\msbuild\folderdeploy.bat"
-
-      
+      run: ${{ github.workspace }}\.github\scripts\msbuild\release.bat
+    - name: Publish .NET Release
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ inputs.appName }}
+        path:  ./Release.zip   
+         
