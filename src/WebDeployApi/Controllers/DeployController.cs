@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Hosting;
@@ -76,11 +77,21 @@ namespace WebDeployApi.Controllers
                     }
                     deployment.log.Add(new Models.DeploymentLog($"{deployment.name} Stopped"));
 
-                    // TODO Backup files
+                    var localPath = Path.Combine(deployment.deploymentLocalPath, deployment.name);
+                    var backupPath = Path.Combine(deployment.deploymentLocalPath, $"{deployment.name}_{deployment.id}" );
+
+                    
+                    // Backup files
                     deployment.log.Add(new Models.DeploymentLog($"Creating backup of path {deployment.deploymentLocalPath}"));
-                    // TODO Copy files
+                    var localDir = new DirectoryInfo(localPath);
+                    Logic.IO.DeepCopy(localDir, backupPath);
+                    Logic.IO.Empty(localDir);
+                    deployment.log.Add(new Models.DeploymentLog($"Backup done"));
+                    // Copy files
                     deployment.log.Add(new Models.DeploymentLog($"Copying files from  {deployment.deploymentUrl}"));
-                    // TODO Start service
+                    Logic.IO.DeepCopy(new DirectoryInfo(tempDir), localPath);
+                    deployment.log.Add(new Models.DeploymentLog($"Files copying done"));
+                    // Start service
                     deployment.log.Add(new Models.DeploymentLog($"Starting {deployment.name}"));
                     switch (deployment.kind)
                     {
