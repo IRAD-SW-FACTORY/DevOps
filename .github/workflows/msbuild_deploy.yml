@@ -77,7 +77,6 @@ jobs:
           server: '${{ vars.QA_SERVER }}'
           appName: '${{ vars.APP_NAME }}'
           serviceName: '${{ vars.SERVICE_NAME }}'
-          deployOptionScript: ${{ inputs.deployOptionScript }}
           appKind: ${{ inputs.appKind }}
           devopsUser: 'devops'
           devopsPwd: '${{ secrets.DEVOPSUSERPWD }}'  
