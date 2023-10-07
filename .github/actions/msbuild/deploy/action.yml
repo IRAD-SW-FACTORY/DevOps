@@ -56,7 +56,7 @@ runs:
         VERSION_FILE: "Deploy\\version.txt"
         KIND: ${{ inputs.appKind }}
       shell: pwsh
-      if: inputs.deployOptionScript == "Api"
+      if: inputs.deployOptionScript == 'Api'
       run: ${{ github.workspace }}\.github\scripts\msbuild\apiDeploy.ps1"
 
     - name: Deploy .NET Release using Shared Folder
@@ -75,7 +75,7 @@ runs:
         VERSION_FILE: "Deploy\\version.txt"
         KIND: ${{ inputs.appKind }}
       shell: cmd
-      if: inputs.deployOptionScript == "Folder"
+      if: inputs.deployOptionScript == 'Folder'
       run: ${{ github.workspace }}\.github\scripts\msbuild\folderdeploy.bat"
 
       
