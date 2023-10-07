@@ -15,5 +15,5 @@ echo "%VERSION%" >> %VERSION_FILE%
 powershell Compress-Archive Deploy Release.zip
 
 net use X: %DESTINATION_PATH% "%DESTINATION_PWD%" /User:%DESTINATION_USER%
-xcopy Release.zip "X:\Releases\%APP_NAME%_%RUN_ID%.zip"  /Y /E
+xcopy Release.zip "X:\Releases\%APP_NAME%_%RUN_ID%.zip*"  /Y /E
 net use X: /d /Y
