@@ -12,4 +12,8 @@ if "%PROJECT_PATH%" NEQ "." cd ..
 
 echo "%APP_NAME%" > %VERSION_FILE%
 echo "%VERSION%" >> %VERSION_FILE%
-powershell Compress-Archive Deploy Release.zip
+powershell Compress-Archive Deploy\* Release.zip
+
+net use X: %DESTINATION_PATH% "%DESTINATION_PWD%" /User:%DESTINATION_USER%
+copy /Y Release.zip "X:\Releases\%APP_NAME%_%RUN_ID%.zip"
+net use X: /d /Y
