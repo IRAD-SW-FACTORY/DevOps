@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 
 namespace WebDeployApi.Logic
 {
@@ -17,10 +18,22 @@ namespace WebDeployApi.Logic
                 File.Copy(newPath, newPath.Replace(directory.FullName, destinationDir), true);
             }
         }
-        public static void Empty(this System.IO.DirectoryInfo directory)
+        public static void Empty(this DirectoryInfo directory)
         {
-            foreach (System.IO.FileInfo file in directory.GetFiles()) file.Delete();
-            foreach (System.IO.DirectoryInfo subDirectory in directory.GetDirectories()) subDirectory.Delete(true);
+            foreach (FileInfo file in directory.GetFiles()) file.Delete();
+            foreach (DirectoryInfo subDirectory in directory.GetDirectories()) subDirectory.Delete(true);
+        }
+
+        internal static void Run(string cmd, string args, string message)
+        {
+            Process p = new Process();
+            p.StartInfo.FileName = cmd;
+            p.StartInfo.Arguments = args;
+            p.StartInfo.CreateNoWindow = true;
+            p.Start();
+            p.WaitForExit();
+            if (p.ExitCode != 0)
+                throw new System.Exception($"Error {message}");
         }
     }
 }

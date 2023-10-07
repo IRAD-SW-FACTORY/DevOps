@@ -302,7 +302,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Logic\Directory.cs" />
+    <Compile Include="Logic\IO.cs" />
     <Compile Include="Logic\WebService.cs" />
     <Compile Include="Logic\WinService.cs" />
     <Compile Include="Logic\Zip.cs" />
