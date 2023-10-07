@@ -32,7 +32,7 @@ namespace WebDeployApi.Logic
             p.StartInfo.CreateNoWindow = true;
             p.Start();
             p.WaitForExit();
-            if (p.ExitCode != 0)
+            if (p.ExitCode != 0 && p.ExitCode != 1062)
                 throw new System.Exception($"Error {message}");
         }
     }
