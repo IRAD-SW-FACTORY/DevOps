@@ -57,7 +57,7 @@ runs:
       uses: actions/upload-artifact@v3
       with:
         name: ${{ inputs.appName }}
-        path:  ./Deploy/   
+        path:  ./Release.zip   
     - name: Deploy .NET Release
       env: 
         REPO_NAME: ${{ github.event.repository.name }}

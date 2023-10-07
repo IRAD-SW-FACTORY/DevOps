@@ -4,6 +4,7 @@ on:
     tags:
       - '**'
     branches:
+      - 'feature/deploy-api'
       - main
       - develop
   workflow_dispatch:
