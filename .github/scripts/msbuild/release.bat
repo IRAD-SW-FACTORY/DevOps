@@ -2,7 +2,7 @@ echo "Publishing of %APP_NAME% started"
 mkdir Deploy
 cd %PROJECT_PATH%%
 IF "%KIND%" == "WinService" (
-    msbuild  /t:restore /p:RestorePackagesConfig=true /p:Configuration=%BUILD_CONFIG%
+    msbuild  /t:restore /t:rebuild /p:RestorePackagesConfig=true /p:Configuration=%BUILD_CONFIG%
     xcopy bin\%BUILD_CONFIG%\* Deploy\* /Y /E
 )
 IF "%KIND%" == "AppWeb" (
