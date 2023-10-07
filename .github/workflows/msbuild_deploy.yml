@@ -51,7 +51,7 @@ jobs:
         with:
           fetch-depth: 0
           repository: 'IRAD-SW-FACTORY/DevOps'
-          ref: refs/heads/feature/deploy-api
+          ref: refs/heads/develop
           path: 'scripts'
       - shell: cmd
         run: xcopy ${{ github.workspace }}\scripts\.github\scripts ${{ github.workspace }}\.github\scripts\  /Y /E
