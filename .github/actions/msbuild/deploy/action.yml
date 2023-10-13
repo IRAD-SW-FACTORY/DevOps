@@ -57,7 +57,7 @@ runs:
         KIND: ${{ inputs.appKind }}
       shell: pwsh
       if: inputs.deployOptionScript == 'Api'
-      run: ${{ github.workspace }}\.github\scripts\msbuild\apiDeploy.ps1"
+      run: ${{ github.workspace }}\.github\scripts\msbuild\apiDeploy.ps1
 
     - name: Deploy .NET Release using Shared Folder
       env: 
@@ -76,6 +76,6 @@ runs:
         KIND: ${{ inputs.appKind }}
       shell: cmd
       if: inputs.deployOptionScript == 'Folder'
-      run: ${{ github.workspace }}\.github\scripts\msbuild\folderdeploy.bat"
+      run: ${{ github.workspace }}\.github\scripts\msbuild\folderdeploy.bat
 
       

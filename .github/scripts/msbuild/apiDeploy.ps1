@@ -1,5 +1,6 @@
 Write-Output "Deploy started using API"
-$serverBaseUrl = if ($null -ne $env:SERVER) { "http://${env:SERVER}" } else { "http://ec2-54-152-53-114.compute-1.amazonaws.com" };
+$destinationServerBaseUrl = if ($null -ne $env:SERVER) { "http://${env:SERVER}" } else { "http://ec2-54-152-53-114.compute-1.amazonaws.com" };
+$releasesServerBaseUrl = if ($null -ne $env:SERVER) { "http://${env:SERVER}" } else { "http://ec2-54-152-53-114.compute-1.amazonaws.com" };
 $runId = if ($null -ne $env:RUN_ID) { $env:RUN_ID } else { "6439638128" };
 $kind = if ($null -ne $env:KIND) { $env:KIND == "AppWeb" ? 0 : 1 } else { 0 };
 $name = if ($null -ne $env:APP_NAME) { $env:APP_NAME } else { "MultiRisWeb" };
@@ -10,9 +11,8 @@ $localPath = if ($null -ne $env:DESTINATION_LOCAL_PATH) { $env:DESTINATION_LOCAL
 $authToken = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes("${user}:${pass}"))
 $releasedPackage = "${name}_${runId}.zip"
 $backupsPath =  "${localPath}\\Backups"
-$apiUrl = "$serverBaseUrl/DeployApi/api/Deploy"
-$releaseUrl = "$serverBaseUrl/WebReleases/$releasedPackage"
-
+$apiUrl = "$destinationServerBaseUrl/DeployApi/api/Deploy"
+$releaseUrl = "$releasesServerBaseUrl/WebReleases/$releasedPackage"
 
 $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
 $headers.Add("Accept", "application/json")
