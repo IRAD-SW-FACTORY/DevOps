@@ -41,6 +41,6 @@ if ($result.deploymentStatus -eq 2) {
 } 
 else {
     $env:EXIT_CODE = 1;
-    #$[Environment]::Exit(1)
+    [Environment]::Exit(1)
 }
-#[Environment]::Exit(0)
+[Environment]::Exit(0)
