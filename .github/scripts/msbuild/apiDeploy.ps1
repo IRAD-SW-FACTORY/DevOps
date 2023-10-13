@@ -8,7 +8,13 @@ $name = if ($null -ne $env:APP_NAME) { $env:APP_NAME } else { "MultiRisWeb" }
 $serviceName = if ($null -ne $env:SERVICE_NAME) { $env:SERVICE_NAME } else { "" }
 $user = if ($null -ne $env:DESTINATION_USER) { $env:DESTINATION_USER } else { "devops" };
 $pass = if ($null -ne $env:DESTINATION_PWD) { $env:DESTINATION_PWD } else { "Oh$&OGfK@-2K=9diZF8Cd!k0WK.ZU)Bl" }
-$localPath = if ($null -ne $env:DESTINATION_LOCAL_PATH) { $env:DESTINATION_LOCAL_PATH } else { "c:\\Sitios" }
+if ($kind -eq 0) { 
+    $localPath = if ($null -ne $env:DESTINATION_LOCAL_PATH) { $env:DESTINATION_LOCAL_PATH } else { "c:\\Sitios" }
+}
+else
+{
+    $localPath = if ($null -ne $env:DESTINATION_LOCAL_PATH) { $env:DESTINATION_LOCAL_PATH } else { "c:\\Servicios" }
+}
 
 $authToken = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes("${user}:${pass}"))
 $releasedPackage = "${name}_${runId}.zip"
