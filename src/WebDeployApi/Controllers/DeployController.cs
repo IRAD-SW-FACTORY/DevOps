@@ -64,7 +64,7 @@ namespace WebDeployApi.Controllers
                     File.Delete(tempZip);
                     deployment.log.Add(new Models.DeploymentLog($"Release downloaded and unzipped to {tempDir}"));
 
-                    // TODO Stop service
+                    // Stop service
                     deployment.log.Add(new Models.DeploymentLog($"Stopping {deployment.name}"));
                     switch (deployment.kind)
                     {
