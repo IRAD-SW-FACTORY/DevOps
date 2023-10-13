@@ -34,4 +34,13 @@ $body = @"
 "@
 
 $response = Invoke-RestMethod $apiUrl -Method 'POST' -Headers $headers -Body $body
-$response | ConvertTo-Json
+$result = $response | ConvertTo-Json | ConvertFrom-Json
+Write-Output $result
+if ($result.deploymentStatus -eq 2) { 
+    $env:EXIT_CODE = 0;
+} 
+else {
+    $env:EXIT_CODE = 1;
+    $[Environment]::Exit(1)
+}
+[Environment]::Exit(0)
