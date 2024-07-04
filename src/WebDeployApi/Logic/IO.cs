@@ -5,15 +5,15 @@ namespace WebDeployApi.Logic
 {
     public static class IO
     {
-        public static void DeepCopy(this DirectoryInfo directory, string destinationDir)
+        public static void DeepCopy(this DirectoryInfo directory, string destinationDir, string filePattern = "*.*")
         {
-            foreach (string dir in Directory.GetDirectories(directory.FullName, "*", SearchOption.AllDirectories))
+            foreach (string dir in Directory.GetDirectories(directory.FullName, filePattern, SearchOption.AllDirectories))
             {
                 string dirToCreate = dir.Replace(directory.FullName, destinationDir);
                 Directory.CreateDirectory(dirToCreate);
             }
 
-            foreach (string newPath in Directory.GetFiles(directory.FullName, "*.*", SearchOption.AllDirectories))
+            foreach (string newPath in Directory.GetFiles(directory.FullName, filePattern, SearchOption.AllDirectories))
             {
                 File.Copy(newPath, newPath.Replace(directory.FullName, destinationDir), true);
             }
