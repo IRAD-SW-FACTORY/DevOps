@@ -11,3 +11,4 @@ rmdir "X:\%APP_NAME%_%RUN_ID%" /Q /S
 c:
 net use X: /d /Y
 call .github\scripts\start.bat
+
