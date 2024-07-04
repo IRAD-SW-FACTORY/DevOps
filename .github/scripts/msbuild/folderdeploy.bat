@@ -6,8 +6,8 @@ X:
 xcopy "X:\%APP_NAME%\*" "X:\Backups\%APP_NAME%_%RUN_ID%\*"  /Y /E
 xcopy "X:\%APP_NAME%_%RUN_ID%\*" "%APP_NAME%\*"  /Y /E
 echo "Copy configs from backup"
-xcopy "X:\Backups\%APP_NAME%_%RUN_ID%\*.config" "%APP_NAME%\*"  /Y /E
-rmdir "X:\%APP_NAME%_%RUN_ID%" /Q/S
+xcopy "X:\Backups\%APP_NAME%_%RUN_ID%\*.config" "X:\%APP_NAME%\"  /Y /E
+rmdir "X:\%APP_NAME%_%RUN_ID%" /Q /S
 c:
 net use X: /d /Y
 call .github\scripts\start.bat
