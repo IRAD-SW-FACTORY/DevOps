@@ -93,6 +93,9 @@ namespace WebDeployApi.Controllers
                     deployment.log.Add(new Models.DeploymentLog($"Copying files from  {deployment.deploymentUrl}"));
                     Logic.IO.DeepCopy(new DirectoryInfo(tempDir), localPath);
                     deployment.log.Add(new Models.DeploymentLog($"Files copying done"));
+                    // Restore .configs
+                    deployment.log.Add(new Models.DeploymentLog($"Copying .config files from backup"));
+                    Logic.IO.DeepCopy(new DirectoryInfo(backupPath), localPath, "*.config");
                     // Start service
                     deployment.log.Add(new Models.DeploymentLog($"Starting {deployment.name}"));
                     switch (deployment.kind)
